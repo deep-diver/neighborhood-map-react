@@ -1,61 +1,15 @@
 import React, { Component } from 'react';
 import { withGoogleMap, GoogleMap } from 'react-google-maps';
 import './Map.css';
+import MapStyleOptions from './MapStyleOptions.json'
 
 class Map extends Component {
    render() {
      const GoogleMapExample = withGoogleMap(props => (
         <GoogleMap
-          defaultCenter = { { lat: 40.756795, lng: -73.954298 } }
-          defaultZoom = { 13 }
-          defaultOptions = { {styles:
-            [
-              {
-                "featureType": "administrative.land_parcel",
-                "elementType": "labels",
-                "stylers": [
-                  {
-                    "visibility": "off"
-                  }
-                ]
-              },
-              {
-                "featureType": "poi",
-                "elementType": "labels.text",
-                "stylers": [
-                  {
-                    "visibility": "off"
-                  }
-                ]
-              },
-              {
-                "featureType": "poi.business",
-                "stylers": [
-                  {
-                    "visibility": "off"
-                  }
-                ]
-              },
-              {
-                "featureType": "poi.park",
-                "elementType": "labels.text",
-                "stylers": [
-                  {
-                    "visibility": "off"
-                  }
-                ]
-              },
-              {
-                "featureType": "road.local",
-                "elementType": "labels",
-                "stylers": [
-                  {
-                    "visibility": "off"
-                  }
-                ]
-              }
-            ]
-          }}
+          defaultCenter = { { lat: 35.907757, lng: 127.766922 } }
+          defaultZoom = { 8 }
+          defaultOptions = { {styles: MapStyleOptions} }
         >
         </GoogleMap>
      ))

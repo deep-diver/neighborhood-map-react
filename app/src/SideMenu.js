@@ -1,30 +1,39 @@
 import React, {Component} from 'react'
 import './SideMenu.css'
+import * as FSAPI from './FSAPIs'
 
 class SideMenu extends Component {
   state = {
-    width: "0"
+    findText: ""
   }
 
   openSideMenu() {
-    document.querySelector('#mySidenav').style.width = "250px";
-    document.querySelector("#map").style.marginLeft = "250px";
-    document.querySelector("#top-bar").style.marginLeft = "250px";
+    document.querySelector('#mySidenav').style.width = "250px"
+    document.querySelector("#map").style.marginLeft = "250px"
+    document.querySelector("#top-bar").style.marginLeft = "250px"
   }
 
   closeSideMenu() {
-    document.querySelector('#mySidenav').style.width = "0";
-    document.querySelector("#map").style.marginLeft = "0";
-    document.querySelector("#top-bar").style.marginLeft = "0";
+    document.querySelector('#mySidenav').style.width = "0"
+    document.querySelector("#map").style.marginLeft = "0"
+    document.querySelector("#top-bar").style.marginLeft = "0"
+  }
+
+  findTextUpdate(event) {
+    this.setState({
+      findText: event.target.value
+    })
+  }
+
+  findClicked() {
+    console.log(FSAPI.search(this.state.findText))
   }
 
   render() {
     return (
       <div id="mySidenav" className="sidenav">
-        <a href="#">About</a>
-        <a href="#">Services</a>
-        <a href="#">Clients</a>
-        <a href="#">Contact</a>
+        <input onChange={this.findTextUpdate.bind(this)} type="text"/>
+        <button onClick={this.findClicked.bind(this)}>find</button>
       </div>
     )
   }

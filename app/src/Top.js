@@ -5,8 +5,8 @@ import "./Top.css"
 class Top extends Component {
   render() {
     return (
-      <div className="top-bar">
-        <NavButton/>
+      <div id="top-bar">
+        <NavButton openSideMenuHandler={this.props.openSideMenuHandler} closeSideMenuHandler={this.props.closeSideMenuHandler}/>
       </div>
     )
   }

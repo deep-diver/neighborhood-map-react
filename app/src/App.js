@@ -5,6 +5,23 @@ import Top from './Top.js'
 import SideMenu from './SideMenu.js'
 
 class App extends Component {
+  state = {
+    center: {
+      lat: 37.566535,
+      lng: 126.977969
+    }
+  }
+
+  onCenterChangeHandler(center) {
+    console.log(center)
+    this.setState({
+      center: {
+        lat: center.lat(),
+        lng: center.lng()
+      }
+    })
+  }
+
   openSideMenu() {
     this.sideMenu.openSideMenu()
   }
@@ -18,7 +35,7 @@ class App extends Component {
       <div className="App">
         <Top openSideMenuHandler={this.openSideMenu.bind(this)} closeSideMenuHandler={this.closeSideMenu.bind(this)}/>
         <SideMenu ref={instance => {this.sideMenu = instance}}/>
-        <Map/>
+        <Map center={this.state.center} onCenterChangeHandler={this.onCenterChangeHandler.bind(this)}/>
       </div>
     );
   }

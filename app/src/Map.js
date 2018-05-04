@@ -7,17 +7,10 @@ import './Map.css';
 import MapStyleOptions from './MapStyleOptions.json';
 
 class Map extends Component {
-  state = {
-    center: {
-      lat: 37.566535,
-      lng: 126.977969
-    }
-  }
-
   searchBox = null
   map = null
 
-  onPlacesChanged() {
+  onPlacesChanged(onCenterChangeHandler) {
     const places = this.searchBox.getPlaces()
     const bounds = new google.maps.LatLngBounds()
 
@@ -32,14 +25,7 @@ class Map extends Component {
     this.map.fitBounds(bounds)
     this.map.center = bounds.getCenter()
     let center = this.map.getCenter()
-    console.log(center.lat() + ", " + center.lng())
-
-    this.setState({
-      center: {
-        lat: center.lat(),
-        lng: center.lng()
-      }
-    })
+    onCenterChangeHandler(center)
   }
 
   onSearchBoxMounted(ref) {
@@ -54,7 +40,7 @@ class Map extends Component {
     const GoogleMapExample = withGoogleMap(props => (
       <GoogleMap
         ref={props.onMapMounted}
-        defaultCenter = { { lat: this.state.center.lat, lng: this.state.center.lng } }
+        defaultCenter = { { lat: props.center.lat, lng: props.center.lng } }
         defaultZoom = { 12 }
         defaultOptions = {
           {
@@ -87,8 +73,9 @@ class Map extends Component {
           mapElement={
             <div style={{ height: `100%` }} />
           }
+          center={this.props.center}
           onMapMounted={this.onMapMounted.bind(this)}
-          onPlacesChanged={this.onPlacesChanged.bind(this)}
+          onPlacesChanged={this.onPlacesChanged.bind(this, this.props.onCenterChangeHandler)}
           onSearchBoxMounted={this.onSearchBoxMounted.bind(this)}
         />
       </div>

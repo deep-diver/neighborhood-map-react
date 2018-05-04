@@ -25,15 +25,16 @@ class SideMenu extends Component {
     })
   }
 
-  findClicked(center) {
+  findClicked(center, onPlacesUpdated) {
     const lat = center.lat
     const lng = center.lng
 
-    FSAPI.search(this.state.findText).then(function(data) {
+    FSAPI.search(lat, lng, this.state.findText).then(function(data) {
       const code = data.meta.code
 
       if (code === 200) {
-        console.log(data.response)
+        // console.log(data.response.groups[0].items)
+        onPlacesUpdated(data.response.groups[0].items)
       }
       else {
 
@@ -45,7 +46,7 @@ class SideMenu extends Component {
     return (
       <div id="mySidenav" className="sidenav">
         <input onChange={this.findTextUpdate.bind(this)} type="text"/>
-        <button onClick={this.findClicked.bind(this, this.props.center)}>find</button>
+        <button onClick={this.findClicked.bind(this, this.props.center, this.props.onPlacesUpdated)}>find</button>
       </div>
     )
   }

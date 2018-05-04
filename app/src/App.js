@@ -9,7 +9,17 @@ class App extends Component {
     center: {
       lat: 37.566535,
       lng: 126.977969
-    }
+    },
+
+    places: []
+  }
+
+  onPlacesUpdated(updatedPlaces) {
+    this.setState({
+      places: updatedPlaces
+    })
+
+    console.log(this.state.places)
   }
 
   onCenterChangeHandler(center) {
@@ -34,8 +44,8 @@ class App extends Component {
     return (
       <div className="App">
         <Top openSideMenuHandler={this.openSideMenu.bind(this)} closeSideMenuHandler={this.closeSideMenu.bind(this)}/>
-        <SideMenu ref={instance => {this.sideMenu = instance}} center={this.state.center}/>
-        <Map center={this.state.center} onCenterChangeHandler={this.onCenterChangeHandler.bind(this)}/>
+        <SideMenu ref={instance => {this.sideMenu = instance}} center={this.state.center} onPlacesUpdated={this.onPlacesUpdated.bind(this)}/>
+        <Map center={this.state.center} places={this.state.places} onCenterChangeHandler={this.onCenterChangeHandler.bind(this)}/>
       </div>
     );
   }

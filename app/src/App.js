@@ -34,7 +34,7 @@ class App extends Component {
     return (
       <div className="App">
         <Top openSideMenuHandler={this.openSideMenu.bind(this)} closeSideMenuHandler={this.closeSideMenu.bind(this)}/>
-        <SideMenu ref={instance => {this.sideMenu = instance}}/>
+        <SideMenu ref={instance => {this.sideMenu = instance}} center={this.state.center}/>
         <Map center={this.state.center} onCenterChangeHandler={this.onCenterChangeHandler.bind(this)}/>
       </div>
     );

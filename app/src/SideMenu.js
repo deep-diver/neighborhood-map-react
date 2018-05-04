@@ -26,7 +26,16 @@ class SideMenu extends Component {
   }
 
   findClicked() {
-    console.log(FSAPI.search(this.state.findText))
+    FSAPI.search(this.state.findText).then(function(data) {
+      const code = data.meta.code
+
+      if (code === 200) {
+        console.log(data.response)
+      }
+      else {
+
+      }
+    })
   }
 
   render() {

@@ -7,6 +7,13 @@ import './Map.css';
 import MapStyleOptions from './MapStyleOptions.json';
 
 class Map extends Component {
+  state = {
+    center: {
+      lat: 37.566535,
+      lng: 126.977969
+    }
+  }
+
   searchBox = null
   map = null
 
@@ -23,7 +30,16 @@ class Map extends Component {
     })
 
     this.map.fitBounds(bounds)
-    console.log(places)
+    this.map.center = bounds.getCenter()
+    let center = this.map.getCenter()
+    console.log(center.lat() + ", " + center.lng())
+
+    this.setState({
+      center: {
+        lat: center.lat(),
+        lng: center.lng()
+      }
+    })
   }
 
   onSearchBoxMounted(ref) {
@@ -38,8 +54,8 @@ class Map extends Component {
     const GoogleMapExample = withGoogleMap(props => (
       <GoogleMap
         ref={props.onMapMounted}
-        defaultCenter = { { lat: 35.907757, lng: 127.766922 } }
-        defaultZoom = { 8 }
+        defaultCenter = { { lat: this.state.center.lat, lng: this.state.center.lng } }
+        defaultZoom = { 12 }
         defaultOptions = {
           {
             styles: MapStyleOptions,

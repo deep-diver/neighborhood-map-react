@@ -11,15 +11,22 @@ class App extends Component {
       lng: 126.977969
     },
 
-    places: []
+    places: [],
+    isPlacesUpdated: false
   }
 
   onPlacesUpdated(updatedPlaces) {
     this.setState({
-      places: updatedPlaces
+      places: updatedPlaces,
+      isPlacesUpdated: true
+    })
+    console.log(this.state.isPlacesUpdated)
+
+    this.setState({
+      isPlacesUpdated: false
     })
 
-    console.log(this.state.places)
+    console.log(this.state.isPlacesUpdated)
   }
 
   onCenterChangeHandler(center) {
@@ -28,7 +35,8 @@ class App extends Component {
       center: {
         lat: center.lat(),
         lng: center.lng()
-      }
+      },
+      places: []
     })
   }
 
@@ -45,7 +53,7 @@ class App extends Component {
       <div className="App">
         <Top openSideMenuHandler={this.openSideMenu.bind(this)} closeSideMenuHandler={this.closeSideMenu.bind(this)}/>
         <SideMenu ref={instance => {this.sideMenu = instance}} center={this.state.center} onPlacesUpdated={this.onPlacesUpdated.bind(this)}/>
-        <Map center={this.state.center} places={this.state.places} onCenterChangeHandler={this.onCenterChangeHandler.bind(this)}/>
+        <Map center={this.state.center} isPlacesUpdated={this.state.isPlacesUpdated} places={this.state.places} onCenterChangeHandler={this.onCenterChangeHandler.bind(this)}/>
       </div>
     );
   }

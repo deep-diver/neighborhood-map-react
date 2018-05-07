@@ -72,7 +72,13 @@ class Map extends Component {
             <Marker
               key={place.venue.id}
               animation={true}
-              position={ {lat:place.venue.location.lat, lng:place.venue.location.lng} }>
+              position={ {lat:place.venue.location.lat, lng:place.venue.location.lng} }
+              onClick={() => {place.isInfoOpen = true}}>
+              {place.isInfoOpen && <InfoWindow onCloseClick={() => {place.isInfoOpen = false}}>
+                <div>
+                  {place.name}
+                </div>
+              </InfoWindow>}
             </Marker>
           )
         }

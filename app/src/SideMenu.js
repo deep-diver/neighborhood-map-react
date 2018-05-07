@@ -4,7 +4,8 @@ import * as FSAPI from './FSAPIs'
 
 class SideMenu extends Component {
   state = {
-    findText: ""
+    findText: "",
+    places: []
   }
 
   openSideMenu() {
@@ -28,13 +29,23 @@ class SideMenu extends Component {
   findClicked(center, onPlacesUpdated) {
     const lat = center.lat
     const lng = center.lng
+    const ref = this
 
     FSAPI.search(lat, lng, this.state.findText).then(function(data) {
       const code = data.meta.code
 
       if (code === 200) {
         // console.log(data.response.groups[0].items)
-        onPlacesUpdated(data.response.groups[0].items)
+        const places = data.response.groups[0].items
+        places.forEach((item) => {
+          item.isInfoOpen = false
+        })
+
+        onPlacesUpdated(places)
+
+        ref.setState({
+          places: data.response.groups[0].items
+        })
       }
       else {
 
@@ -45,8 +56,19 @@ class SideMenu extends Component {
   render() {
     return (
       <div id="mySidenav" className="sidenav">
-        <input onChange={this.findTextUpdate.bind(this)} type="text"/>
-        <button onClick={this.findClicked.bind(this, this.props.center, this.props.onPlacesUpdated)}>find</button>
+        <div>
+          <input onChange={this.findTextUpdate.bind(this)} type="text"/>
+          <button onClick={this.findClicked.bind(this, this.props.center, this.props.onPlacesUpdated)}>find</button>
+        </div>
+        <div className="place-list">
+          {
+            this.state.places.map(place =>
+              <div key={place.venue.id}>
+                {place.venue.name}
+              </div>
+            )
+          }
+        </div>
       </div>
     )
   }

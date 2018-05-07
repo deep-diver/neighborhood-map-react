@@ -16,17 +16,16 @@ class App extends Component {
   }
 
   onPlacesUpdated(updatedPlaces) {
+    console.log(updatedPlaces)
+
     this.setState({
       places: updatedPlaces,
       isPlacesUpdated: true
     })
-    console.log(this.state.isPlacesUpdated)
 
     this.setState({
       isPlacesUpdated: false
     })
-
-    console.log(this.state.isPlacesUpdated)
   }
 
   onCenterChangeHandler(center) {

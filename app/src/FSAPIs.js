@@ -4,7 +4,7 @@ const client_secret = "PZXI0GPI45F00XFPDLHHSUN0EMFYZF4OWLW2FZA53IL2OWKR"
 const version = "20180503"
 
 export const search = (lat, lng, query) =>
-  fetch(`${api}/venues/explore?ll=${lat},${lng}&limit=10&query=${query}&client_id=${client_id}&client_secret=${client_secret}&v=${version}`)
+  fetch(`${api}/venues/explore?ll=${lat},${lng}&limit=50&query=${query}&client_id=${client_id}&client_secret=${client_secret}&v=${version}`)
   .then(res => res.json())
 
 // export const search = (near) =>

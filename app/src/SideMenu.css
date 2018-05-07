@@ -36,3 +36,12 @@
   .sidenav {padding-top: 15px;}
   .sidenav a {font-size: 18px;}
 }
+
+.place-list div {
+  color: white;
+  margin: 10px;
+}
+
+.place-list div:hover {
+  background-color: gray;
+}

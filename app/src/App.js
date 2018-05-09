@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './App.css';
-import Map from './Map.js'
+import GoogleMapsContainer from './GoogleMapsContainer.js'
 import Top from './Top.js'
 import SideMenu from './SideMenu.js'
 
@@ -16,8 +16,6 @@ class App extends Component {
   }
 
   onPlacesUpdated(updatedPlaces) {
-    console.log(updatedPlaces)
-
     this.setState({
       places: updatedPlaces,
       isPlacesUpdated: true
@@ -52,7 +50,7 @@ class App extends Component {
       <div className="App">
         <Top openSideMenuHandler={this.openSideMenu.bind(this)} closeSideMenuHandler={this.closeSideMenu.bind(this)}/>
         <SideMenu ref={instance => {this.sideMenu = instance}} center={this.state.center} onPlacesUpdated={this.onPlacesUpdated.bind(this)}/>
-        <Map center={this.state.center} isPlacesUpdated={this.state.isPlacesUpdated} places={this.state.places} onCenterChangeHandler={this.onCenterChangeHandler.bind(this)}/>
+        <GoogleMapsContainer/>
       </div>
     );
   }

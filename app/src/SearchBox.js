@@ -11,19 +11,19 @@ export default class SearchBox extends Component {
     onPlacesChanged: PropTypes.func
   }
   render() {
-    return <input className="search-box" ref="input" {...this.props} type="text"/>;
+    return <input className="search-box" ref="input" type="text"/>
   }
   onPlacesChanged = () => {
     if (this.props.onPlacesChanged) {
-      this.props.onPlacesChanged(this.searchBox.getPlaces());
+      this.props.onPlacesChanged(this.searchBox.getPlaces())
     }
   }
   componentDidMount() {
-    var input = ReactDOM.findDOMNode(this.refs.input);
-    this.searchBox = new google.maps.places.SearchBox(input);
-    this.searchBox.addListener('places_changed', this.onPlacesChanged);
+    var input = ReactDOM.findDOMNode(this.refs.input)
+    this.searchBox = new google.maps.places.SearchBox(input)
+    this.searchBox.addListener('places_changed', this.onPlacesChanged)
   }
   componentWillUnmount() {
-    this.searchBox.removeListener('places_changed', this.onPlacesChanged);
+    this.searchBox.removeListener('places_changed', this.onPlacesChanged)
   }
 }

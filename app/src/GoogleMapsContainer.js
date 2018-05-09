@@ -1,6 +1,10 @@
+/*global google*/
+
+import _ from  'lodash'
 import React from 'react'
 import { GoogleApiWrapper, InfoWindow, Map, Marker } from 'google-maps-react'
 import './Map.css'
+import ReactDOM from 'react-dom'
 import SearchBox from './SearchBox'
 import MapStyleOptions from './MapStyleOptions.json'
 
@@ -32,11 +36,29 @@ class GoogleMapsContainer extends React.Component {
       });
     }
   }
+
+  onPlacesChanged(places) {
+    const bounds = new google.maps.LatLngBounds();
+
+    places.forEach(place => {
+      if (place.geometry.viewport) {
+        bounds.union(place.geometry.viewport)
+      } else {
+        bounds.extend(place.geometry.location)
+      }
+    });
+
+    this.refs.map.setState({
+      currentLocation: bounds.getCenter()
+    })
+  }
+
   render() {
     return (
       <div id='map'>
-        <SearchBox />
+        <SearchBox onPlacesChanged={this.onPlacesChanged.bind(this)}/>
         <Map
+          ref="map"
           google = { this.props.google }
           onClick = { this.onMapClick }
           zoom = { 14 }
@@ -44,7 +66,6 @@ class GoogleMapsContainer extends React.Component {
           mapTypeControl = { false }
           styles = { MapStyleOptions }
         >
-
           <Marker
             onClick = { this.onMarkerClick }
             title = { 'Changing Colors Garage' }

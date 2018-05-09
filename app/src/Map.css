@@ -37,3 +37,7 @@
   outline: `none`,
   textOverflow: `ellipses`*/
 }
+
+.info-div {
+  font-weight: bold;
+}

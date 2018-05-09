@@ -1,33 +1,25 @@
 /*global google*/
 
-import _ from  'lodash'
 import React from 'react'
 import { GoogleApiWrapper, InfoWindow, Map, Marker } from 'google-maps-react'
 import './Map.css'
-import ReactDOM from 'react-dom'
 import SearchBox from './SearchBox'
 import MapStyleOptions from './MapStyleOptions.json'
 
 
 class GoogleMapsContainer extends React.Component {
+  state = {
+    showingInfoWindow: false,
+    activeMarker: {},
+    selectedPlace: {},
+    selectedVenue: {}
+  }
+
   constructor(props) {
-    super(props);
-    this.state = {
-      showingInfoWindow: false,
-      activeMarker: {},
-      selectedPlace: {}
-    }
-    // binding this to event-handler functions
-    this.onMarkerClick = this.onMarkerClick.bind(this);
-    this.onMapClick = this.onMapClick.bind(this);
+    super(props)
+    this.onMapClick = this.onMapClick.bind(this)
   }
-  onMarkerClick = (props, marker, e) => {
-    this.setState({
-      selectedPlace: props,
-      activeMarker: marker,
-      showingInfoWindow: true
-    });
-  }
+
   onMapClick = (props) => {
     if (this.state.showingInfoWindow) {
       this.setState({
@@ -51,9 +43,18 @@ class GoogleMapsContainer extends React.Component {
     this.refs.map.setState({
       currentLocation: bounds.getCenter()
     })
+
+    this.props.onCenterChangeHandler(bounds.getCenter())
+  }
+
+  componentDidMount() {
+    console.log("componentDidMount")
   }
 
   render() {
+    let container = this
+    let updatedPlaces = this.props.places
+
     return (
       <div id='map'>
         <SearchBox onPlacesChanged={this.onPlacesChanged.bind(this)}/>
@@ -62,23 +63,35 @@ class GoogleMapsContainer extends React.Component {
           google = { this.props.google }
           onClick = { this.onMapClick }
           zoom = { 14 }
-          initialCenter = {{ lat: 39.648209, lng: -75.711185 }}
+          initialCenter = { this.props.center }
           mapTypeControl = { false }
           styles = { MapStyleOptions }
         >
-          <Marker
-            onClick = { this.onMarkerClick }
-            title = { 'Changing Colors Garage' }
-            position = {{ lat: 39.648209, lng: -75.711185 }}
-            name = { 'Changing Colors Garage' }
-          />
+        {
+          updatedPlaces.map(place =>
+            <Marker
+              onClick = {(props, marker, e) => {
+                console.log(place)
+
+                container.setState({
+                  selectedVenue: place,
+                  selectedPlace: props,
+                  activeMarker: marker,
+                  showingInfoWindow: true
+                });
+              }}
+              key = { place.venue.id }
+              title = { place.venue.name }
+              position = { {lat: place.venue.location.lat, lng: place.venue.location.lng} }
+              name = { place.venue.name }
+            />
+          )
+        }
           <InfoWindow
-            marker = { this.state.activeMarker }
-            visible = { this.state.showingInfoWindow }
+            marker = { container.state.activeMarker }
+            visible = { container.state.showingInfoWindow }
           >
-            <div>
-              hello world!
-            </div>
+            <div className='info-div'>{this.state.showingInfoWindow && this.state.selectedVenue.venue.name}</div>
           </InfoWindow>
         </Map>
       </div>
@@ -86,6 +99,6 @@ class GoogleMapsContainer extends React.Component {
   }
 }
 export default GoogleApiWrapper({
-    api: 'AIzaSyAo03uEVYhfB3edmU9qkFJw5BIGLA2mGCc',
+    apiKey: 'AIzaSyAo03uEVYhfB3edmU9qkFJw5BIGLA2mGCc',
     libraries: ['geometry', 'drawing', 'places']
 })(GoogleMapsContainer)

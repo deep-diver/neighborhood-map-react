@@ -62,8 +62,10 @@ class SideMenu extends Component {
         </div>
         <div className="place-list">
           {
-            this.state.places.map(place =>
-              <div key={place.venue.id}>
+            this.state.places.map((place,index) =>
+              <div
+                key={place.venue.id}
+                onClick={this.props.onVenueSelected.bind(this, index)}>
                 {place.venue.name}
               </div>
             )

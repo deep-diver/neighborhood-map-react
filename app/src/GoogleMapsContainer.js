@@ -9,10 +9,12 @@ import MapStyleOptions from './MapStyleOptions.json'
 
 class GoogleMapsContainer extends React.Component {
   state = {
+    markers: [],
     showingInfoWindow: false,
     activeMarker: {},
     selectedPlace: {},
-    selectedVenue: {}
+    selectedVenue: {},
+    selectedVenueIndex: {}
   }
 
   constructor(props) {
@@ -47,13 +49,16 @@ class GoogleMapsContainer extends React.Component {
     this.props.onCenterChangeHandler(bounds.getCenter())
   }
 
-  componentDidMount() {
-    console.log("componentDidMount")
+  componentDidUpdate(prevProps, prevState) {
+    console.log(this.refs.map)
   }
 
   render() {
     let container = this
     let updatedPlaces = this.props.places
+    let selectedVenueIndex = this.props.selectedVenueIndex
+
+    console.log(selectedVenueIndex)
 
     return (
       <div id='map'>
@@ -68,24 +73,29 @@ class GoogleMapsContainer extends React.Component {
           styles = { MapStyleOptions }
         >
         {
-          updatedPlaces.map(place =>
-            <Marker
-              onClick = {(props, marker, e) => {
-                console.log(place)
+          updatedPlaces.map((place, index) => {
+              let marker =
+                  <Marker
+                    ref = {index}
+                    onClick = {(props, marker, e) => {
+                      console.log(place)
 
-                container.setState({
-                  selectedVenue: place,
-                  selectedPlace: props,
-                  activeMarker: marker,
-                  showingInfoWindow: true
-                });
-              }}
-              key = { place.venue.id }
-              title = { place.venue.name }
-              position = { {lat: place.venue.location.lat, lng: place.venue.location.lng} }
-              name = { place.venue.name }
-            />
-          )
+                      container.setState({
+                        selectedVenue: place,
+                        selectedVenueIndex: index,
+                        selectedPlace: props,
+                        activeMarker: marker,
+                        showingInfoWindow: true
+                      });
+                    }}
+                    key = { place.venue.id }
+                    title = { place.venue.name }
+                    position = { {lat: place.venue.location.lat, lng: place.venue.location.lng} }
+                    name = { place.venue.name }
+                  />
+                return marker
+              }
+            )
         }
           <InfoWindow
             marker = { container.state.activeMarker }

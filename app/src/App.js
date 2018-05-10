@@ -12,7 +12,8 @@ class App extends Component {
     },
 
     places: [],
-    isPlacesUpdated: false
+    isPlacesUpdated: false,
+    selectedVenue: {}
   }
 
   onPlacesUpdated(updatedPlaces) {
@@ -37,6 +38,12 @@ class App extends Component {
     })
   }
 
+  onVenueSelected(index) {
+    this.setState({
+      selectedVenueIndex: index
+    })
+  }
+
   openSideMenu() {
     this.sideMenu.openSideMenu()
   }
@@ -49,8 +56,17 @@ class App extends Component {
     return (
       <div className="App">
         <Top openSideMenuHandler={this.openSideMenu.bind(this)} closeSideMenuHandler={this.closeSideMenu.bind(this)}/>
-        <SideMenu ref={instance => {this.sideMenu = instance}} center={this.state.center} onPlacesUpdated={this.onPlacesUpdated.bind(this)}/>
-        <GoogleMapsContainer center={this.state.center} places={this.state.places} isPlacesUpdated={this.state.isPlacesUpdated} onCenterChangeHandler={this.onCenterChangeHandler.bind(this)}/>
+        <SideMenu
+          ref={instance => {this.sideMenu = instance}}
+          center={this.state.center}
+          onPlacesUpdated={this.onPlacesUpdated.bind(this)}
+          onVenueSelected={this.onVenueSelected.bind(this)}/>
+        <GoogleMapsContainer
+          center={this.state.center}
+          places={this.state.places}
+          isPlacesUpdated={this.state.isPlacesUpdated}
+          selectedVenueIndex={this.state.selectedVenueIndex}
+          onCenterChangeHandler={this.onCenterChangeHandler.bind(this)}/>
       </div>
     );
   }

@@ -1,23 +1,33 @@
 import React, {Component} from 'react'
+import TimerMixin from 'react-timer-mixin'
 import './SideMenu.css'
 import * as FSAPI from './FSAPIs'
 
 class SideMenu extends Component {
+  timeout = null
+
   state = {
     findText: "",
     venues: []
   }
 
   openSideMenu() {
-    document.querySelector('#mySidenav').style.width = "250px"
-    document.querySelector("#map").style.marginLeft = "250px"
-    document.querySelector("#top-bar").style.marginLeft = "250px"
+    document.querySelector('#mySidenav').style.width = "300px"
+    document.querySelector("#top-bar").style.marginLeft = "300px"
+    document.querySelector("#map").style.marginLeft = "300px"
+
+    this.timeout = TimerMixin.setTimeout(() => {
+      document.querySelector("#map").style.width = "calc(100% - 300px)"
+
+      TimerMixin.clearTimeout(this.timeout)
+    }, 350);
   }
 
   closeSideMenu() {
     document.querySelector('#mySidenav').style.width = "0"
-    document.querySelector("#map").style.marginLeft = "0"
     document.querySelector("#top-bar").style.marginLeft = "0"
+    document.querySelector("#map").style.marginLeft = "0"
+    document.querySelector("#map").style.width = "100%"
   }
 
   findTextUpdate(event) {

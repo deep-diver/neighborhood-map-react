@@ -11,30 +11,23 @@ class App extends Component {
       lng: 126.977969
     },
 
-    places: [],
-    isPlacesUpdated: false,
+    venues: [],
     selectedVenue: {}
   }
 
-  onPlacesUpdated(updatedPlaces) {
+  onVenueUpdated(updatedVenues) {
     this.setState({
-      places: updatedPlaces,
-      isPlacesUpdated: true
-    })
-
-    this.setState({
-      isPlacesUpdated: false
+      venues: updatedVenues,
     })
   }
 
   onCenterChangeHandler(center) {
-    console.log(center)
     this.setState({
       center: {
         lat: center.lat(),
         lng: center.lng()
       },
-      places: []
+      venues: []
     })
   }
 
@@ -42,6 +35,8 @@ class App extends Component {
     this.setState({
       selectedVenueIndex: index
     })
+
+    this.mapContainer.onSelectVenue(index, this.state.venues[index])
   }
 
   openSideMenu() {
@@ -55,17 +50,18 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <Top openSideMenuHandler={this.openSideMenu.bind(this)} closeSideMenuHandler={this.closeSideMenu.bind(this)}/>
+        <Top
+          openSideMenuHandler={this.openSideMenu.bind(this)}
+          closeSideMenuHandler={this.closeSideMenu.bind(this)}/>
         <SideMenu
           ref={instance => {this.sideMenu = instance}}
           center={this.state.center}
-          onPlacesUpdated={this.onPlacesUpdated.bind(this)}
+          onVenueUpdated={this.onVenueUpdated.bind(this)}
           onVenueSelected={this.onVenueSelected.bind(this)}/>
         <GoogleMapsContainer
+          setOnVenueSelected={onVenueSelected => this.mapContainer = onVenueSelected}
           center={this.state.center}
-          places={this.state.places}
-          isPlacesUpdated={this.state.isPlacesUpdated}
-          selectedVenueIndex={this.state.selectedVenueIndex}
+          venues={this.state.venues}
           onCenterChangeHandler={this.onCenterChangeHandler.bind(this)}/>
       </div>
     );

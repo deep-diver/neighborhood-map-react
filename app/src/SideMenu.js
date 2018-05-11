@@ -5,7 +5,7 @@ import * as FSAPI from './FSAPIs'
 class SideMenu extends Component {
   state = {
     findText: "",
-    places: []
+    venues: []
   }
 
   openSideMenu() {
@@ -26,7 +26,7 @@ class SideMenu extends Component {
     })
   }
 
-  findClicked(center, onPlacesUpdated) {
+  findClicked(center, onVenueUpdated) {
     const lat = center.lat
     const lng = center.lng
     const ref = this
@@ -36,15 +36,12 @@ class SideMenu extends Component {
 
       if (code === 200) {
         // console.log(data.response.groups[0].items)
-        const places = data.response.groups[0].items
-        places.forEach((item) => {
-          item.isInfoOpen = false
-        })
+        const venues = data.response.groups[0].items
 
-        onPlacesUpdated(places)
+        onVenueUpdated(venues)
 
         ref.setState({
-          places: data.response.groups[0].items
+          venues: venues
         })
       }
       else {
@@ -58,11 +55,11 @@ class SideMenu extends Component {
       <div id="mySidenav" className="sidenav">
         <div>
           <input onChange={this.findTextUpdate.bind(this)} type="text"/>
-          <button onClick={this.findClicked.bind(this, this.props.center, this.props.onPlacesUpdated)}>find</button>
+          <button onClick={this.findClicked.bind(this, this.props.center, this.props.onVenueUpdated)}>find</button>
         </div>
         <div className="place-list">
           {
-            this.state.places.map((place,index) =>
+            this.state.venues.map((place,index) =>
               <div
                 key={place.venue.id}
                 onClick={this.props.onVenueSelected.bind(this, index)}>

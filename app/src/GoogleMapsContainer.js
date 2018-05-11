@@ -9,12 +9,10 @@ import MapStyleOptions from './MapStyleOptions.json'
 
 class GoogleMapsContainer extends React.Component {
   state = {
-    markers: [],
     showingInfoWindow: false,
     activeMarker: {},
     selectedPlace: {},
     selectedVenue: {},
-    selectedVenueIndex: {}
   }
 
   constructor(props) {
@@ -49,16 +47,23 @@ class GoogleMapsContainer extends React.Component {
     this.props.onCenterChangeHandler(bounds.getCenter())
   }
 
-  componentDidUpdate(prevProps, prevState) {
-    console.log(this.refs.map)
+  onSelectVenue(index, venue) {
+    let selectedMarker = this.refs['marker-' + index]
+
+    this.setState({
+      selectedVenue: venue,
+      activeMarker: selectedMarker.marker,
+      showingInfoWindow: true
+    })
+  }
+
+  componentDidMount() {
+    this.props.setOnVenueSelected(this)
   }
 
   render() {
     let container = this
-    let updatedPlaces = this.props.places
-    let selectedVenueIndex = this.props.selectedVenueIndex
-
-    console.log(selectedVenueIndex)
+    let updatedVenues = this.props.venues
 
     return (
       <div id='map'>
@@ -73,35 +78,27 @@ class GoogleMapsContainer extends React.Component {
           styles = { MapStyleOptions }
         >
         {
-          updatedPlaces.map((place, index) => {
-              let marker =
-                  <Marker
-                    ref = {index}
-                    onClick = {(props, marker, e) => {
-                      console.log(place)
-
-                      container.setState({
-                        selectedVenue: place,
-                        selectedVenueIndex: index,
-                        selectedPlace: props,
-                        activeMarker: marker,
-                        showingInfoWindow: true
-                      });
-                    }}
-                    key = { place.venue.id }
-                    title = { place.venue.name }
-                    position = { {lat: place.venue.location.lat, lng: place.venue.location.lng} }
-                    name = { place.venue.name }
-                  />
-                return marker
-              }
-            )
+          updatedVenues.map((venue, index) =>
+            <Marker
+              ref = {"marker-" + index}
+              onClick = {(props, marker, e) => {
+                container.setState({
+                  selectedVenue: venue,
+                  activeMarker: marker,
+                  showingInfoWindow: true
+                })
+              }}
+              key = { venue.venue.id }
+              title = { venue.venue.name }
+              position = { {lat: venue.venue.location.lat, lng: venue.venue.location.lng} }
+              name = { venue.venue.name }
+            />
+          )
         }
           <InfoWindow
             marker = { container.state.activeMarker }
-            visible = { container.state.showingInfoWindow }
-          >
-            <div className='info-div'>{this.state.showingInfoWindow && this.state.selectedVenue.venue.name}</div>
+            visible = { container.state.showingInfoWindow }>
+            <div className='info-div'>{container.state.showingInfoWindow && container.state.selectedVenue.venue.name}</div>
           </InfoWindow>
         </Map>
       </div>

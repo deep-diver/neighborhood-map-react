@@ -1,4 +1,4 @@
-.search-box {
+.search-box, .venue-search-box {
   z-index: 99;
   position: fixed;
 
@@ -15,5 +15,9 @@
   outline: none;
   text-overflow: ellipsis;
 
-  transition: margin-left .5s;
+  transition: margin-left .3s;
+}
+
+.venue-search-box {
+  margin-left: 300px;
 }

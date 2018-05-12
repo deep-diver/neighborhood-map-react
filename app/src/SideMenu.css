@@ -8,7 +8,6 @@
     background-color: rgba(0, 0, 0, 0.72);
     overflow-x: hidden;
     transition: 0.5s;
-    padding-top: 60px;
 }
 
 .sidenav a {
@@ -24,17 +23,24 @@
     color: #f1f1f1;
 }
 
-.sidenav .closebtn {
-    position: absolute;
-    top: 0;
-    right: 25px;
-    font-size: 36px;
-    margin-left: 50px;
-}
-
 @media screen and (max-height: 450px) {
   .sidenav {padding-top: 15px;}
   .sidenav a {font-size: 18px;}
+}
+
+.venue-search-label, .venue-search-input, .venue-search-button {
+  display: block;
+  margin-bottom: 10px;
+  height: 20px;
+  font-size: 15pt;
+}
+
+.venue-search-label {
+  color: white;
+}
+
+.venue-search-button {
+  height: 30px;
 }
 
 .place-list div {

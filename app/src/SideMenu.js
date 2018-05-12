@@ -12,12 +12,12 @@ class SideMenu extends Component {
   }
 
   openSideMenu() {
-    document.querySelector('#mySidenav').style.width = "300px"
-    document.querySelector("#top-bar").style.marginLeft = "300px"
-    document.querySelector("#map").style.marginLeft = "300px"
+    document.querySelector('#mySidenav').style.width = "350px"
+    document.querySelector("#top-bar").style.marginLeft = "350px"
+    document.querySelector("#map").style.marginLeft = "350px"
 
     this.timeout = TimerMixin.setTimeout(() => {
-      document.querySelector("#map").style.width = "calc(100% - 300px)"
+      document.querySelector("#map").style.width = "calc(100% - 350px)"
 
       TimerMixin.clearTimeout(this.timeout)
     }, 350);
@@ -28,6 +28,12 @@ class SideMenu extends Component {
     document.querySelector("#top-bar").style.marginLeft = "0"
     document.querySelector("#map").style.marginLeft = "0"
     document.querySelector("#map").style.width = "100%"
+  }
+
+  clearVenue() {
+    this.setState({
+      venues: []
+    })
   }
 
   findTextUpdate(event) {
@@ -64,8 +70,9 @@ class SideMenu extends Component {
     return (
       <div id="mySidenav" className="sidenav">
         <div>
-          <input onChange={this.findTextUpdate.bind(this)} type="text"/>
-          <button onClick={this.findClicked.bind(this, this.props.center, this.props.onVenueUpdated)}>find</button>
+          <p className="venue-search-label">find interest of your place</p>
+          <input className="venue-search-input" onChange={this.findTextUpdate.bind(this)} type="text"/>
+          <button className="venue-search-button" onClick={this.findClicked.bind(this, this.props.center, this.props.onVenueUpdated)}>find</button>
         </div>
         <div className="place-list">
           {

@@ -11,7 +11,7 @@ export default class SearchBox extends Component {
     onPlacesChanged: PropTypes.func
   }
   render() {
-    return <input className="search-box" ref="input" type="text"/>
+    return <input className="search-box" ref="input" type="text" placeholder="Pin Location of Your Interest"/>
   }
   onPlacesChanged = () => {
     if (this.props.onPlacesChanged) {

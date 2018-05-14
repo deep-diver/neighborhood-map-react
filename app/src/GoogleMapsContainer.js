@@ -41,7 +41,7 @@ class GoogleMapsContainer extends React.Component {
       } else {
         bounds.extend(place.geometry.location)
       }
-    });
+    })
 
     this.refs.map.setState({
       currentLocation: bounds.getCenter()
@@ -93,8 +93,25 @@ class GoogleMapsContainer extends React.Component {
     return true
   }
 
+  onVenueUpdateHandler(venues) {
+    const bounds = new google.maps.LatLngBounds();
+
+    for (const venue of venues) {
+      const lat = venue.location.lat
+      const lng = venue.location.lng
+
+      bounds.extend(venue.location)
+    }
+
+    this.refs.map.map.fitBounds(bounds)
+
+    this.props.onVenueUpdateHandler(venues)
+  }
+
   render() {
     let container = this
+    let {center, venues, onVenueUpdateHandler} = this.props
+    let {zoom, isMounted} = this.state
 
     return (
       <div id='map'>
@@ -102,19 +119,19 @@ class GoogleMapsContainer extends React.Component {
 
         <VenueSearchBox
           ref="venueSearchBox"
-          center={this.props.center}
-          onVenueUpdateHandler={this.props.onVenueUpdateHandler}/>
+          center={center}
+          onVenueUpdateHandler={this.onVenueUpdateHandler.bind(this)}/>
         <Map
           ref="map"
           google = { this.props.google }
           onClick = { this.onMapClick }
-          zoom = { this.state.zoom }
-          initialCenter = { this.props.center }
+          zoom = { zoom }
+          initialCenter = { center }
           mapTypeControl = { false }
           styles = { MapStyleOptions }
         >
         {
-          this.props.venues.map((venue, index) =>
+          venues.map((venue, index) =>
             <Marker
               ref = {"marker-" + index}
               onClick = {(props, marker, e) => {
@@ -129,7 +146,7 @@ class GoogleMapsContainer extends React.Component {
               title = { venue.name }
               position = { {lat: venue.location.lat, lng: venue.location.lng} }
               name = { venue.name }
-              animation = { (!this.state.isMounted ? google.maps.Animation.DROP : null) }
+              animation = { (!isMounted ? google.maps.Animation.DROP : null) }
             />
           )
         }

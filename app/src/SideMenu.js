@@ -30,58 +30,11 @@ class SideMenu extends Component {
     document.querySelector("#map").style.width = "100%"
   }
 
-  clearVenue() {
-    this.setState({
-      venues: []
-    })
-  }
-
-  findTextUpdate(event) {
-    this.setState({
-      findText: event.target.value
-    })
-  }
-
-  findClicked(center, onVenueUpdated) {
-    const lat = center.lat
-    const lng = center.lng
-    const ref = this
-
-    FSAPI.search(lat, lng, this.state.findText).then(function(data) {
-      const code = data.meta.code
-
-      if (code === 200) {
-        // console.log(data.response.groups[0].items)
-        const venues = data.response.groups[0].items
-
-        let tmpVenues = []
-
-        for (let venue of venues) {
-          console.log(tmpVenues)
-        }
-
-        onVenueUpdated(venues)
-
-        ref.setState({
-          venues: venues
-        })
-      }
-      else {
-
-      }
-    })
-  }
-
   render() {
     let {center, venues, onVenueUpdated, onVenueSelected} = this.props
 
     return (
       <div id="mySidenav" className="sidenav">
-        <div>
-          <p className="venue-search-label">find interest of your place</p>
-          <input className="venue-search-input" onChange={this.findTextUpdate.bind(this)} type="text"/>
-          <button className="venue-search-button" onClick={this.findClicked.bind(this, center, onVenueUpdated)}>find</button>
-        </div>
         <div className="place-list">
           {
             venues.map((venue,index) =>

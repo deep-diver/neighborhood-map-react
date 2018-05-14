@@ -22,7 +22,6 @@ class App extends Component {
   }
 
   onVenueUpdateHandler(venues) {
-    console.log(venues)
      this.setState({
       venues: venues
     })
@@ -36,8 +35,6 @@ class App extends Component {
       },
       venues: []
     })
-
-    this.sideMenu.clearVenue()
   }
 
   onVenueSelected(index) {

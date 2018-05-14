@@ -2,7 +2,6 @@
 
 import React from 'react'
 import { GoogleApiWrapper, InfoWindow, Map, Marker } from 'google-maps-react'
-import TimerMixin from 'react-timer-mixin'
 import './Map.css'
 import SearchBox from './SearchBox'
 import VenueSearchBox from './VenueSearchBox'
@@ -17,7 +16,6 @@ class GoogleMapsContainer extends React.Component {
     activeMarker: {},
     selectedPlace: {},
     selectedVenue: {},
-    venues: []
   }
 
   constructor(props) {
@@ -62,7 +60,6 @@ class GoogleMapsContainer extends React.Component {
   }
 
   onSelectVenue(index, venue) {
-    let container = this
     let selectedMarker = this.refs['marker-' + index]
 
     this.setState({
@@ -96,12 +93,6 @@ class GoogleMapsContainer extends React.Component {
     return true
   }
 
-  onVenueUpdateHandler(venues) {
-    this.setState({
-      venues: venues
-    })
-  }
-
   render() {
     let container = this
 
@@ -112,8 +103,7 @@ class GoogleMapsContainer extends React.Component {
         <VenueSearchBox
           ref="venueSearchBox"
           center={this.props.center}
-          onVenueUpdateHandler={this.onVenueUpdateHandler.bind(this)}/>
-
+          onVenueUpdateHandler={this.props.onVenueUpdateHandler}/>
         <Map
           ref="map"
           google = { this.props.google }
@@ -124,7 +114,7 @@ class GoogleMapsContainer extends React.Component {
           styles = { MapStyleOptions }
         >
         {
-          this.state.venues.map((venue, index) =>
+          this.props.venues.map((venue, index) =>
             <Marker
               ref = {"marker-" + index}
               onClick = {(props, marker, e) => {
@@ -135,10 +125,10 @@ class GoogleMapsContainer extends React.Component {
                   showingInfoWindow: true
                 })
               }}
-              key = { venue.venue.id }
-              title = { venue.venue.name }
-              position = { {lat: venue.venue.location.lat, lng: venue.venue.location.lng} }
-              name = { venue.venue.name }
+              key = { venue.id }
+              title = { venue.name }
+              position = { {lat: venue.location.lat, lng: venue.location.lng} }
+              name = { venue.name }
               animation = { (!this.state.isMounted ? google.maps.Animation.DROP : null) }
             />
           )
@@ -146,7 +136,7 @@ class GoogleMapsContainer extends React.Component {
           <InfoWindow
             marker = { container.state.activeMarker }
             visible = { container.state.showingInfoWindow }>
-            <div className='info-div'>{container.state.showingInfoWindow && container.state.selectedVenue.venue.name}</div>
+            <div className='info-div'>{container.state.showingInfoWindow && container.state.selectedVenue.name}</div>
           </InfoWindow>
         </Map>
       </div>

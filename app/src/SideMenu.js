@@ -54,6 +54,12 @@ class SideMenu extends Component {
         // console.log(data.response.groups[0].items)
         const venues = data.response.groups[0].items
 
+        let tmpVenues = []
+
+        for (let venue of venues) {
+          console.log(tmpVenues)
+        }
+
         onVenueUpdated(venues)
 
         ref.setState({
@@ -67,20 +73,22 @@ class SideMenu extends Component {
   }
 
   render() {
+    let {center, venues, onVenueUpdated, onVenueSelected} = this.props
+
     return (
       <div id="mySidenav" className="sidenav">
         <div>
           <p className="venue-search-label">find interest of your place</p>
           <input className="venue-search-input" onChange={this.findTextUpdate.bind(this)} type="text"/>
-          <button className="venue-search-button" onClick={this.findClicked.bind(this, this.props.center, this.props.onVenueUpdated)}>find</button>
+          <button className="venue-search-button" onClick={this.findClicked.bind(this, center, onVenueUpdated)}>find</button>
         </div>
         <div className="place-list">
           {
-            this.state.venues.map((place,index) =>
+            venues.map((venue,index) =>
               <div
-                key={place.venue.id}
-                onClick={this.props.onVenueSelected.bind(this, index)}>
-                {place.venue.name}
+                key={venue.id}
+                onClick={onVenueSelected.bind(this, index)}>
+                {venue.name}
               </div>
             )
           }

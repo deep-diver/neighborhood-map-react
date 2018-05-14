@@ -21,6 +21,13 @@ class App extends Component {
     })
   }
 
+  onVenueUpdateHandler(venues) {
+    console.log(venues)
+     this.setState({
+      venues: venues
+    })
+  }
+
   onCenterChangeHandler(center) {
     this.setState({
       center: {
@@ -58,13 +65,15 @@ class App extends Component {
         <SideMenu
           ref={instance => {this.sideMenu = instance}}
           center={this.state.center}
+          venues={this.state.venues}
           onVenueUpdated={this.onVenueUpdated.bind(this)}
           onVenueSelected={this.onVenueSelected.bind(this)}/>
         <GoogleMapsContainer
           setOnVenueSelected={onVenueSelected => this.mapContainer = onVenueSelected}
           center={this.state.center}
           venues={this.state.venues}
-          onCenterChangeHandler={this.onCenterChangeHandler.bind(this)}/>
+          onCenterChangeHandler={this.onCenterChangeHandler.bind(this)}
+          onVenueUpdateHandler={this.onVenueUpdateHandler.bind(this)}/>
       </div>
     );
   }

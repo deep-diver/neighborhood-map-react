@@ -1,8 +1,4 @@
-/*global google*/
-
 import React, {Component} from 'react'
-import ReactDOM from 'react-dom'
-import PropTypes from 'prop-types'
 import * as FSAPI from './FSAPIs'
 import './SearchBox.css'
 
@@ -41,8 +37,16 @@ export default class VenueSearchBox extends Component {
         const code = data.meta.code
 
         if (code === 200) {
-          const venues = data.response.groups[0].items
-          ref.props.onVenueUpdateHandler(venues)
+          const venues = data.response.venues
+
+          let tmpVenues = []
+
+          for (let venue of venues) {
+            FSAPI.getDetail(venue.id).then(function(detailData) {
+              tmpVenues.push(detailData.response.venue)
+              ref.props.onVenueUpdateHandler(tmpVenues)
+            })
+          }
         }
       })
     }

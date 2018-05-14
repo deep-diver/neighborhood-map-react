@@ -4,13 +4,9 @@ const client_secret = "PZXI0GPI45F00XFPDLHHSUN0EMFYZF4OWLW2FZA53IL2OWKR"
 const version = "20180503"
 
 export const search = (lat, lng, query) =>
-  fetch(`${api}/venues/explore?ll=${lat},${lng}&limit=10&query=${query}&client_id=${client_id}&client_secret=${client_secret}&v=${version}`)
+  fetch(`${api}/venues/search?ll=${lat},${lng}&limit=10&query=${query}&client_id=${client_id}&client_secret=${client_secret}&v=${version}`)
   .then(res => res.json())
 
-// export const search = (near) =>
-//   fetch(`${api}/venues/explore?near=${near}&client_id=${client_id}&client_secret=${client_secret}&v=${version}`)
-//   .then(res => res.json())
-
-export const getPhoto = (venueId) =>
-  fetch(`${api}/venues/${venueId}/photos?&client_id=${client_id}&client_secret=${client_secret}&v=${version}`)
+export const getDetail = (venueId) =>
+  fetch(`${api}/venues/${venueId}?&client_id=${client_id}&client_secret=${client_secret}&v=${version}`)
   .then(res => res.json())

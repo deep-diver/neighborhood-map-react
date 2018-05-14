@@ -40,13 +40,20 @@ export default class VenueSearchBox extends Component {
           const venues = data.response.venues
 
           let tmpVenues = []
-
-          for (let venue of venues) {
-            FSAPI.getDetail(venue.id).then(function(detailData) {
-              tmpVenues.push(detailData.response.venue)
-              ref.props.onVenueUpdateHandler(tmpVenues)
-            })
+          const promises = []
+          for (const venue of venues) {
+            promises.push(FSAPI.getDetail(venue.id))
           }
+
+          Promise.all(promises).then(function(detailOnAllVenues) {
+            for (const details of detailOnAllVenues) {
+              if (details.meta.code === 200) {
+                tmpVenues.push(details.response.venue)
+              }
+            }
+
+            ref.props.onVenueUpdateHandler(tmpVenues)
+          })
         }
       })
     }

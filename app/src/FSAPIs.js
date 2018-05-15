@@ -10,3 +10,7 @@ export const search = (lat, lng, query) =>
 export const getDetail = (venueId) =>
   fetch(`${api}/venues/${venueId}?&client_id=${client_id}&client_secret=${client_secret}&v=${version}`)
   .then(res => res.json())
+
+export const getPhotos = (venueId) =>
+  fetch(`${api}/venues/${venueId}/photos?&limit=1&client_id=${client_id}&client_secret=${client_secret}&v=${version}`)
+  .then(res => res.json())

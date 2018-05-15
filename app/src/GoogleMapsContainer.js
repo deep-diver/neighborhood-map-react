@@ -6,6 +6,11 @@ import './Map.css'
 import SearchBox from './SearchBox'
 import VenueSearchBox from './VenueSearchBox'
 import MapStyleOptions from './MapStyleOptions.json'
+import * as FSAPI from './FSAPIs'
+
+import like from './like.png'
+import phone from './phone.png'
+import address from './address.png'
 
 
 class GoogleMapsContainer extends React.Component {
@@ -60,28 +65,32 @@ class GoogleMapsContainer extends React.Component {
   }
 
   onSelectVenue(index, venue) {
+    const container = this
     let selectedMarker = this.refs['marker-' + index]
 
-    this.setState({
-      isMounted: true,
-      selectedVenue: venue,
-      activeMarker: selectedMarker.marker,
-      showingInfoWindow: true
-    })
+    FSAPI.getPhotos(venue.id).then(function(photoData) {
+      const photos = photoData.response.photos
+      if (photos.count > 0 && photos.items.length > 0) {
+        const photo = photos.items[0]
+        const prefix = photo.prefix
+        const suffix = photo.suffix
 
-    this.refs.map.map.setZoom(16)
-    this.refs.map.setState({
-      currentLocation: selectedMarker.props.position
-    })
-    console.log(this.refs.map)
-  }
+        const url = prefix + "100x100" + suffix
+        venue.thumbnail = url
+      }
 
-  toggleBounce(marker) {
-    if (marker.getAnimation() !== null) {
-      marker.setAnimation(null);
-    } else {
-      marker.setAnimation(google.maps.Animation.BOUNCE);
-    }
+      container.refs.map.map.setZoom(16)
+      container.refs.map.setState({
+        currentLocation: selectedMarker.props.position
+      })
+
+      container.setState({
+        isMounted: true,
+        selectedVenue: venue,
+        activeMarker: selectedMarker.marker,
+        showingInfoWindow: true
+      })
+    })
   }
 
   componentDidMount() {
@@ -94,6 +103,8 @@ class GoogleMapsContainer extends React.Component {
   }
 
   onVenueUpdateHandler(venues) {
+    console.log(venues)
+
     const bounds = new google.maps.LatLngBounds();
 
     for (const venue of venues) {
@@ -104,7 +115,6 @@ class GoogleMapsContainer extends React.Component {
     }
 
     this.refs.map.map.fitBounds(bounds)
-
     this.props.onVenueUpdateHandler(venues)
   }
 
@@ -135,11 +145,25 @@ class GoogleMapsContainer extends React.Component {
             <Marker
               ref = {"marker-" + index}
               onClick = {(props, marker, e) => {
-                container.setState({
-                  isMounted: true,
-                  selectedVenue: venue,
-                  activeMarker: marker,
-                  showingInfoWindow: true
+                FSAPI.getPhotos(venue.id).then(function(photoData) {
+                  if (photoData.meta.code === 200) {
+                    const photos = photoData.response.photos
+                    if (photos.count > 0 && photos.items.length > 0) {
+                      const photo = photos.items[0]
+                      const prefix = photo.prefix
+                      const suffix = photo.suffix
+
+                      const url = prefix + "300x100" + suffix
+                      venue.thumbnail = url
+                    }
+                  }
+
+                  container.setState({
+                    isMounted: true,
+                    selectedVenue: venue,
+                    activeMarker: marker,
+                    showingInfoWindow: true
+                  })
                 })
               }}
               key = { venue.id }
@@ -153,7 +177,65 @@ class GoogleMapsContainer extends React.Component {
           <InfoWindow
             marker = { container.state.activeMarker }
             visible = { container.state.showingInfoWindow }>
-            <div className='info-div'>{container.state.showingInfoWindow && container.state.selectedVenue.name}</div>
+            <div className='info-container'>
+              <div className='info-head-container'>
+                <img
+                  className='info-head-img'
+                  src={container.state.selectedVenue.categories &&
+                          container.state.selectedVenue.categories[0].icon.prefix + "bg_32" + container.state.selectedVenue.categories[0].icon.suffix}
+                  title={container.state.selectedVenue.categories &&
+                          container.state.selectedVenue.categories[0].name}
+                  />
+                <div
+                  className='info-head-name'>
+                  {container.state.showingInfoWindow && container.state.selectedVenue.name}
+                </div>
+              </div>
+              <hr/>
+              <div className='info-body-container'>
+                <img src={container.state.selectedVenue.thumbnail}/>
+                <hr/>
+                <div className='info-body-like'>
+                  <img src={like} />
+                  <div className='info-body-like-label'>
+                    { container.state.selectedVenue.likes && container.state.selectedVenue.likes.count > 0 ? container.state.selectedVenue.likes.summary : 'Not Yet Registered' }
+                  </div>
+                </div>
+                { container.state.selectedVenue.hours && container.state.selectedVenue.hours.timeframes.length > 0 &&
+                  <div>
+                    <hr/>
+                    <div className='info-body-timeframe'>
+                      <b>Open Times</b>
+                      <ul>
+                        {
+                          container.state.selectedVenue.hours.timeframes.map((timeframe, index) =>
+                             <li key={index}> <span className="bold-text">{timeframe.days} :</span>
+                                              {timeframe.open.map((time, index2) => {
+                                                if (timeframe.open.length-1 === index2) return time.renderedTime;
+                                                else return time.renderedTime + "|"
+                                              })}
+                             </li>
+                          )
+                        }
+                      </ul>
+                    </div>
+                  </div>
+                }
+                <hr/>
+                <div className='info-body-phone'>
+                  <img src={phone}/>
+                  <div className='info-body-phone-number'>
+                    {container.state.selectedVenue.contact ? container.state.selectedVenue.contact.formattedPhone ? container.state.selectedVenue.contact.formattedPhone : 'Not Yet Registered' : 'Not Yet Registered'}
+                  </div>
+                </div>
+                <div className='info-body-address'>
+                  <img src={address}/>
+                  <div className='info-body-address-number'>
+                    {container.state.selectedVenue.location ? container.state.selectedVenue.location.city ? container.state.selectedVenue.location.city + ", " + container.state.selectedVenue.location.address : 'Not Yet Registered' : 'Not Yet Registered'}
+                  </div>
+                </div>
+              </div>
+            </div>
           </InfoWindow>
         </Map>
       </div>

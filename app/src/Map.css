@@ -28,6 +28,47 @@
   text-overflow: ellipsis;
 }
 
-.info-div {
+.info-container {
+  width: 200px;
+}
+
+.info-head-container, .info-body-like, .info-body-phone, .info-body-address {
+  margin-bottom: 5px;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.info-head-name, .info-body-like-label {
+  width: calc(100% - 32px);
+  padding-top: 5px;
+
+  text-align: center;
+  font-size: 13pt;
   font-weight: bold;
+}
+
+.info-body-like-label, .info-body-phone-number, .info-body-address-number {
+  width: calc(100% - 42px);
+  padding-top: 10px;
+  padding-left: 10px;
+
+  font-size: 10pt;
+  font-weight: normal;
+  text-align: left;
+}
+
+.info-body-timeframe ul {
+  padding: 0;
+}
+
+.bold-text {
+  font-weight: bold;
+}
+
+.info-body-phone-number, .info-body-address {
+  text-decoration: underline;
+}
+
+.info-body-address-number {
+  font-size: 8pt;
 }

@@ -225,13 +225,19 @@ class GoogleMapsContainer extends React.Component {
                 <div className='info-body-phone'>
                   <img src={phone}/>
                   <div className='info-body-phone-number'>
-                    {container.state.selectedVenue.contact ? container.state.selectedVenue.contact.formattedPhone ? container.state.selectedVenue.contact.formattedPhone : 'Not Yet Registered' : 'Not Yet Registered'}
+                    {container.state.selectedVenue.contact ?
+                      container.state.selectedVenue.contact.formattedPhone ?
+                      container.state.selectedVenue.contact.formattedPhone :
+                      'Not Yet Registered' : 'Not Yet Registered'}
                   </div>
                 </div>
                 <div className='info-body-address'>
                   <img src={address}/>
                   <div className='info-body-address-number'>
-                    {container.state.selectedVenue.location ? container.state.selectedVenue.location.city ? container.state.selectedVenue.location.city + ", " + container.state.selectedVenue.location.address : 'Not Yet Registered' : 'Not Yet Registered'}
+                    {container.state.selectedVenue.location ?
+                      container.state.selectedVenue.location.city ?
+                      container.state.selectedVenue.location.city + ", " + container.state.selectedVenue.location.address :
+                      'Not Yet Registered' : 'Not Yet Registered'}
                   </div>
                 </div>
               </div>

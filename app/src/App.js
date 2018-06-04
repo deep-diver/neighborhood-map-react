@@ -11,6 +11,10 @@ class App extends Component {
       lng: 126.977969
     },
 
+    radius: 500,
+    limits: 10,
+    categories: [],
+
     venues: [],
     selectedVenue: {}
   }
@@ -53,6 +57,18 @@ class App extends Component {
     this.sideMenu.closeSideMenu()
   }
 
+  onRadiusChanged(e) {
+    this.setState({
+      radius: e.target.value
+    })
+  }
+
+  onLimitsChanged(e) {
+    this.setState({
+      limits: e.target.value
+    })
+  }
+
   render() {
     return (
       <div className="App">
@@ -63,8 +79,12 @@ class App extends Component {
           ref={instance => {this.sideMenu = instance}}
           center={this.state.center}
           venues={this.state.venues}
+          radius={this.state.radius}
+          limits={this.state.limits}
           onVenueUpdated={this.onVenueUpdated.bind(this)}
-          onVenueSelected={this.onVenueSelected.bind(this)}/>
+          onVenueSelected={this.onVenueSelected.bind(this)}
+          onRadiusChanged={this.onRadiusChanged.bind(this)}
+          onLimitsChanged={this.onLimitsChanged.bind(this)}/>
         <GoogleMapsContainer
           setOnVenueSelected={onVenueSelected => this.mapContainer = onVenueSelected}
           center={this.state.center}

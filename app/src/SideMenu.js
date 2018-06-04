@@ -30,11 +30,36 @@ class SideMenu extends Component {
     document.querySelector("#map").style.width = "100%"
   }
 
+  // onChange(e, delegate) {
+  //   console.log(e.target.value)
+  //   delegate()
+  // }
+
   render() {
-    let {center, venues, onVenueUpdated, onVenueSelected} = this.props
+    let {radius, limits, center, venues, onVenueUpdated, onVenueSelected, onRadiusChanged, onLimitsChanged} = this.props
 
     return (
       <div id="mySidenav" className="sidenav">
+        <div className="filter">
+          <p> Radius (<span>{radius}</span>) </p>
+          <input type="range"
+                 min="500"
+                 max="10000"
+                 step="500"
+                 className="radius-slider"
+                 defaultValue={radius}
+                 ref="radius_slider"
+                 onChange={onRadiusChanged}/>
+
+          <p> Query Limits (<span>{limits}</span>) </p>
+          <input type="range"
+                 min="10"
+                 max="50"
+                 step="5"
+                 className="limit-slider"
+                 defaultValue={limits}
+                 onChange={onLimitsChanged}/>
+        </div>
         <div className="place-list">
           {
             venues.map((venue,index) =>

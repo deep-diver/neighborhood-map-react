@@ -9,7 +9,7 @@ export default class VenueSearchBox extends Component {
 
   componentDidMount() {
     this.setState({
-      center: this.props.center
+      center: this.props.center,
     })
   }
 
@@ -32,8 +32,12 @@ export default class VenueSearchBox extends Component {
     if (keyCode === 13) {
       const lat = this.state.center.lat
       const lng = this.state.center.lng
+      const radius = this.props.radius
+      const limits = this.props.limits
 
-      FSAPI.search(lat, lng, venueKeyword).then(function(data) {
+      console.log(radius)
+
+      FSAPI.search(lat, lng, radius, limits, venueKeyword).then(function(data) {
         const code = data.meta.code
 
         if (code === 200) {

@@ -18,8 +18,8 @@ Shop & Service (4d4b7105d754a06378d81259)
 Travel & Transport (4d4b7105d754a06379d81259)
 */
 
-export const search = (lat, lng, query) =>
-  fetch(`${api}/venues/search?ll=${lat},${lng}&limit=10&query=${query}&client_id=${client_id}&client_secret=${client_secret}&v=${version}`)
+export const search = (lat, lng, radius, limits, query) =>
+  fetch(`${api}/venues/search?ll=${lat},${lng}&limit=${limits}&radius=${radius}&query=${query}&client_id=${client_id}&client_secret=${client_secret}&v=${version}`)
   .then(res => res.json())
 
 export const search_q = (lat, lng, query, radius, limits, categories) =>

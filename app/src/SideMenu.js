@@ -29,12 +29,7 @@ class SideMenu extends Component {
     document.querySelector("#map").style.marginLeft = "0"
     document.querySelector("#map").style.width = "100%"
   }
-
-  // onChange(e, delegate) {
-  //   console.log(e.target.value)
-  //   delegate()
-  // }
-
+  
   render() {
     let {radius, limits, center, venues, onVenueUpdated, onVenueSelected, onRadiusChanged, onLimitsChanged} = this.props
 

@@ -89,6 +89,8 @@ class App extends Component {
           setOnVenueSelected={onVenueSelected => this.mapContainer = onVenueSelected}
           center={this.state.center}
           venues={this.state.venues}
+          radius={this.state.radius}
+          limits={this.state.limits}
           onCenterChangeHandler={this.onCenterChangeHandler.bind(this)}
           onVenueUpdateHandler={this.onVenueUpdateHandler.bind(this)}/>
       </div>

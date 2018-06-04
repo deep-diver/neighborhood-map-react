@@ -20,7 +20,7 @@ class GoogleMapsContainer extends React.Component {
     showingInfoWindow: false,
     activeMarker: {},
     selectedPlace: {},
-    selectedVenue: {},
+    selectedVenue: {}
   }
 
   constructor(props) {
@@ -99,6 +99,8 @@ class GoogleMapsContainer extends React.Component {
 
   shouldComponentUpdate(nextProps, nextState) {
     if (this.state.isMounted && !this.state.showingInfoWindow) return false
+    if (this.props.radius !== nextProps.radius ||
+        this.props.limits !== nextProps.limits ) return false
     return true
   }
 
@@ -120,7 +122,7 @@ class GoogleMapsContainer extends React.Component {
 
   render() {
     let container = this
-    let {center, venues, onVenueUpdateHandler} = this.props
+    let {radius, limits, center, venues, onVenueUpdateHandler} = this.props
     let {zoom, isMounted} = this.state
 
     return (
@@ -130,6 +132,8 @@ class GoogleMapsContainer extends React.Component {
         <VenueSearchBox
           ref="venueSearchBox"
           center={center}
+          radius={radius}
+          limits={limits}
           onVenueUpdateHandler={this.onVenueUpdateHandler.bind(this)}/>
         <Map
           ref="map"

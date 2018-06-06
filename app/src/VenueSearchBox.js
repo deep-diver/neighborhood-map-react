@@ -4,7 +4,9 @@ import './SearchBox.css'
 
 export default class VenueSearchBox extends Component {
   state = {
-    center: {}
+    center: {},
+    radius: 1000,
+    limits: 10
   }
 
   componentDidMount() {
@@ -24,6 +26,18 @@ export default class VenueSearchBox extends Component {
     this.refs.venueInput.value = ""
   }
 
+  setRadius(radius) {
+    this.setState({
+      radius: radius
+    })
+  }
+
+  setLimits(limits) {
+    this.setState({
+      limits: limits
+    })
+  }
+
   keyPressed(e) {
     const ref = this
     const venueKeyword = e.target.value
@@ -32,8 +46,8 @@ export default class VenueSearchBox extends Component {
     if (keyCode === 13) {
       const lat = this.state.center.lat
       const lng = this.state.center.lng
-      const radius = this.props.radius
-      const limits = this.props.limits
+      const radius = this.state.radius
+      const limits = this.state.limits
 
       console.log(radius)
 
@@ -56,7 +70,7 @@ export default class VenueSearchBox extends Component {
               }
             }
 
-            ref.props.onVenueUpdateHandler(tmpVenues)
+            ref.props.onVenueUpdateHandler(venueKeyword, tmpVenues)
           })
         }
       })

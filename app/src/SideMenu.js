@@ -29,7 +29,7 @@ class SideMenu extends Component {
     document.querySelector("#map").style.marginLeft = "0"
     document.querySelector("#map").style.width = "100%"
   }
-  
+
   render() {
     let {radius, limits, center, venues, onVenueUpdated, onVenueSelected, onRadiusChanged, onLimitsChanged} = this.props
 
@@ -38,7 +38,7 @@ class SideMenu extends Component {
         <div className="filter">
           <p> Radius (<span>{radius}</span>) </p>
           <input type="range"
-                 min="500"
+                 min="1000"
                  max="10000"
                  step="500"
                  className="radius-slider"

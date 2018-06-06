@@ -20,7 +20,8 @@ class GoogleMapsContainer extends React.Component {
     showingInfoWindow: false,
     activeMarker: {},
     selectedPlace: {},
-    selectedVenue: {}
+    selectedVenue: {},
+    venueKeyword: ""
   }
 
   constructor(props) {
@@ -100,11 +101,17 @@ class GoogleMapsContainer extends React.Component {
   shouldComponentUpdate(nextProps, nextState) {
     if (this.state.isMounted && !this.state.showingInfoWindow) return false
     if (this.props.radius !== nextProps.radius ||
-        this.props.limits !== nextProps.limits ) return false
+        this.props.limits !== nextProps.limits ) {
+          this.refs.venueSearchBox.setRadius(nextProps.radius)
+          this.refs.venueSearchBox.setLimits(nextProps.limits)
+          return false
+    }
+
     return true
   }
 
-  onVenueUpdateHandler(venues) {
+  onVenueUpdateHandler(venueKeyword, venues) {
+    console.log('venueKeyword: ' + venueKeyword)
     console.log(venues)
 
     const bounds = new google.maps.LatLngBounds();
@@ -118,12 +125,16 @@ class GoogleMapsContainer extends React.Component {
 
     this.refs.map.map.fitBounds(bounds)
     this.props.onVenueUpdateHandler(venues)
+
+    this.setState({
+      venueKeyword: venueKeyword
+    })
   }
 
   render() {
     let container = this
     let {radius, limits, center, venues, onVenueUpdateHandler} = this.props
-    let {zoom, isMounted} = this.state
+    let {zoom, isMounted, venueKeyword} = this.state
 
     return (
       <div id='map'>
@@ -132,8 +143,6 @@ class GoogleMapsContainer extends React.Component {
         <VenueSearchBox
           ref="venueSearchBox"
           center={center}
-          radius={radius}
-          limits={limits}
           onVenueUpdateHandler={this.onVenueUpdateHandler.bind(this)}/>
         <Map
           ref="map"
@@ -186,8 +195,10 @@ class GoogleMapsContainer extends React.Component {
                 <img
                   className='info-head-img'
                   src={container.state.selectedVenue.categories &&
+                          container.state.selectedVenue.categories[0] &&
                           container.state.selectedVenue.categories[0].icon.prefix + "bg_32" + container.state.selectedVenue.categories[0].icon.suffix}
                   title={container.state.selectedVenue.categories &&
+                          container.state.selectedVenue.categories[0] &&
                           container.state.selectedVenue.categories[0].name}
                   />
                 <div

@@ -11,7 +11,7 @@ class App extends Component {
       lng: 126.977969
     },
 
-    radius: 500,
+    radius: 1000,
     limits: 10,
     categories: [],
 

@@ -51,3 +51,16 @@
 .place-list div:hover {
   background-color: gray;
 }
+
+.filter {
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+.filter input[type=range] {
+  width: 100%;
+}
+
+.filter p {
+  color: white;
+}

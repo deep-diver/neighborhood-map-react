@@ -72,6 +72,9 @@ class GoogleMapsContainer extends React.Component {
     if (venue.photos && venue.photos.groups && venue.photos.groups[0].items) {
       venue.thumbnail = venue.photos.groups[0].items[0].prefix + "300x100" + venue.photos.groups[0].items[0].suffix
     }
+    else {
+      venue.thumbnail = "https://dummyimage.com/300x100/ffffff/fff&text=no+image"
+    }
 
     container.refs.map.map.setZoom(16)
     container.refs.map.setState({
@@ -152,6 +155,9 @@ class GoogleMapsContainer extends React.Component {
               onClick = {(props, marker, e) => {
                 if (venue.photos && venue.photos.groups && venue.photos.groups[0].items) {
                   venue.thumbnail = venue.photos.groups[0].items[0].prefix + "300x100" + venue.photos.groups[0].items[0].suffix
+                }
+                else {
+                  venue.thumbnail = "https://dummyimage.com/300x100/ffffff/fff&text=no+image"
                 }
 
                 container.setState({

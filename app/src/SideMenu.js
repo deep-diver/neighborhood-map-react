@@ -36,7 +36,8 @@ class SideMenu extends Component {
     return (
       <div id="mySidenav" className="sidenav">
         <div className="filter">
-          <p> Radius (<span>{radius}</span>) </p>
+          <p className="filter-title"> Query Filter </p>
+          <p> Radius in (<span>{radius}</span>) meters </p>
           <input type="range"
                  min="1000"
                  max="10000"

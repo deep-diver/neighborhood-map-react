@@ -33,6 +33,26 @@ class SideMenu extends Component {
   render() {
     let {radius, limits, center, venues, onVenueUpdated, onVenueSelected, onRadiusChanged, onLimitsChanged} = this.props
 
+    // const promises = []
+    // for (const venue of venues) {
+    //   promises.push(FSAPI.getPhotos(venue.id))
+    // }
+    //
+    // Promise.all(promises).then(function(photoDatas) {
+    //   for (const photoData of photoDatas) {
+    //     const photos = photoData.response.photos
+    //
+    //     if (photos.count > 0 && photos.items.length > 0) {
+    //       const photo = photos.items[0]
+    //       const prefix = photo.prefix
+    //       const suffix = photo.suffix
+    //
+    //       const url = prefix + "100x100" + suffix
+    //       venue.thumbnail = url
+    //     }
+    //   }
+    // })
+
     return (
       <div id="mySidenav" className="sidenav">
         <div className="filter">
@@ -60,9 +80,17 @@ class SideMenu extends Component {
           {
             venues.map((venue,index) =>
               <div
+                className="venue"
                 key={venue.id}
                 onClick={onVenueSelected.bind(this, index)}>
-                {venue.name}
+                <p> {venue.name} </p>
+                <img
+                  src={
+                    (venue.photos && venue.photos.groups && venue.photos.groups[0].items ?
+                      venue.photos.groups[0].items[0].prefix + "100x100" + venue.photos.groups[0].items[0].suffix :
+                      "https://dummyimage.com/100x100/ffffff/fff&text=no+image")
+                  }
+                  alt="venue image" />
               </div>
             )
           }

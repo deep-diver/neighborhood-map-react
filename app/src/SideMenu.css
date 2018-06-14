@@ -54,14 +54,6 @@
   border-radius: 5px;
 }
 
-.place-list div {
-  color: white;
-}
-
-.place-list div:hover {
-  background-color: gray;
-}
-
 .filter {
   padding-left: 10px;
   padding-right: 10px;
@@ -90,4 +82,25 @@
   border-bottom-style: solid;
   border-bottom-width: 4px;
   padding-bottom: 5px;
+}
+
+.venue {
+  color: white;
+  height: 150px;
+}
+
+.venue:hover {
+  background-color: gray;
+}
+
+.venue img {
+  width: 100px;
+  height: 100px;
+}
+
+.venue p {
+  margin-top: 0px;
+  margin-bottom: 5px;
+  padding-top: 10px;
+  background-color: #00a7b1;
 }

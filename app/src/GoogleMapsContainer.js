@@ -69,28 +69,20 @@ class GoogleMapsContainer extends React.Component {
     const container = this
     let selectedMarker = this.refs['marker-' + index]
 
-    FSAPI.getPhotos(venue.id).then(function(photoData) {
-      const photos = photoData.response.photos
-      if (photos.count > 0 && photos.items.length > 0) {
-        const photo = photos.items[0]
-        const prefix = photo.prefix
-        const suffix = photo.suffix
+    if (venue.photos && venue.photos.groups && venue.photos.groups[0].items) {
+      venue.thumbnail = venue.photos.groups[0].items[0].prefix + "300x100" + venue.photos.groups[0].items[0].suffix
+    }
 
-        const url = prefix + "100x100" + suffix
-        venue.thumbnail = url
-      }
+    container.refs.map.map.setZoom(16)
+    container.refs.map.setState({
+      currentLocation: selectedMarker.props.position
+    })
 
-      container.refs.map.map.setZoom(16)
-      container.refs.map.setState({
-        currentLocation: selectedMarker.props.position
-      })
-
-      container.setState({
-        isMounted: true,
-        selectedVenue: venue,
-        activeMarker: selectedMarker.marker,
-        showingInfoWindow: true
-      })
+    container.setState({
+      isMounted: true,
+      selectedVenue: venue,
+      activeMarker: selectedMarker.marker,
+      showingInfoWindow: true
     })
   }
 
@@ -158,25 +150,15 @@ class GoogleMapsContainer extends React.Component {
             <Marker
               ref = {"marker-" + index}
               onClick = {(props, marker, e) => {
-                FSAPI.getPhotos(venue.id).then(function(photoData) {
-                  if (photoData.meta.code === 200) {
-                    const photos = photoData.response.photos
-                    if (photos.count > 0 && photos.items.length > 0) {
-                      const photo = photos.items[0]
-                      const prefix = photo.prefix
-                      const suffix = photo.suffix
+                if (venue.photos && venue.photos.groups && venue.photos.groups[0].items) {
+                  venue.thumbnail = venue.photos.groups[0].items[0].prefix + "300x100" + venue.photos.groups[0].items[0].suffix
+                }
 
-                      const url = prefix + "300x100" + suffix
-                      venue.thumbnail = url
-                    }
-                  }
-
-                  container.setState({
-                    isMounted: true,
-                    selectedVenue: venue,
-                    activeMarker: marker,
-                    showingInfoWindow: true
-                  })
+                container.setState({
+                  isMounted: true,
+                  selectedVenue: venue,
+                  activeMarker: marker,
+                  showingInfoWindow: true
                 })
               }}
               key = { venue.id }

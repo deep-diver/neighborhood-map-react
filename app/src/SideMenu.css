@@ -5,7 +5,7 @@
     z-index: 100;
     top: 0;
     left: 0;
-    background-color: rgba(0, 0, 0, 0.72);
+    background-color: white;
     overflow-x: hidden;
     transition: 0.5s;
 }
@@ -28,21 +28,6 @@
   .sidenav a {font-size: 18px;}
 }
 
-.venue-search-label, .venue-search-input, .venue-search-button {
-  display: block;
-  margin-bottom: 10px;
-  height: 20px;
-  font-size: 15pt;
-}
-
-.venue-search-label {
-  color: white;
-}
-
-.venue-search-button {
-  height: 30px;
-}
-
 .place-list {
   margin-left: 10px;
   margin-right: 10px;
@@ -50,7 +35,7 @@
 
   border-style: solid;
   border-width: 1px;
-  border-color: white;
+  border-color: gray;
   border-radius: 5px;
 }
 
@@ -64,7 +49,7 @@
   margin-top: 10px;
 
   border-style: solid;
-  border-color: white;
+  border-color: gray;
   border-radius: 10px;
 }
 
@@ -73,34 +58,68 @@
 }
 
 .filter p {
-  color: white;
+  font-size: 13pt;
+  font-weight: bold;
+  color: gray;
 }
 
 .filter-title {
   font-size: 20pt;
-  border-bottom-color: white;
+  border-bottom-color: gray;
   border-bottom-style: solid;
   border-bottom-width: 4px;
   padding-bottom: 5px;
 }
 
 .venue {
-  color: white;
-  height: 150px;
+  color: gray;
+  height: 135px;
 }
 
 .venue:hover {
-  background-color: gray;
+  background-color: rgba(0, 0, 0, 0.72);;
 }
 
 .venue img {
   width: 100px;
   height: 100px;
+  float: left;
 }
 
 .venue p {
+  height: 20px;
+
   margin-top: 0px;
   margin-bottom: 5px;
-  padding-top: 10px;
+  padding-top: 5px;
+  padding-left: 5px;
   background-color: #00a7b1;
+}
+
+.venue-title {
+  color: white;
+  font-weight: bold;
+}
+
+.venue-info {
+  float: left;
+  overflow: hidden;
+  margin-left: 5px;
+}
+
+.venue-info div {
+  height: 30px;
+  vertical-align: middle;
+  margin-top: 3px;
+}
+
+.venue-info img {
+  height: 30px;
+  width: 30px;
+}
+
+.venue-info-value {
+  font-size: 10pt;
+  padding-top: 15px;
+  margin-left: 10px;
 }

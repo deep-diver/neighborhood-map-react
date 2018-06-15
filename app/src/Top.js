@@ -7,6 +7,8 @@ class Top extends Component {
     return (
       <div id="top-bar">
         <NavButton openSideMenuHandler={this.props.openSideMenuHandler} closeSideMenuHandler={this.props.closeSideMenuHandler}/>
+
+        <div className="top-title"> Map Find </div>
       </div>
     )
   }

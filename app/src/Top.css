@@ -17,3 +17,9 @@
   font-size: 23pt;
   font-weight: bold;
 }
+
+@media only screen and (max-width : 768px) {
+  #top-bar {
+    margin-left: 0px;
+  }
+}

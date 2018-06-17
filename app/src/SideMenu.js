@@ -1,7 +1,6 @@
 import React, {Component} from 'react'
 import TimerMixin from 'react-timer-mixin'
 import './SideMenu.css'
-import * as FSAPI from './FSAPIs'
 
 import like from './like.png'
 import phone from './phone.png'
@@ -16,22 +15,30 @@ class SideMenu extends Component {
   }
 
   openSideMenu() {
-    document.querySelector('#mySidenav').style.width = "400px"
-    document.querySelector("#top-bar").style.marginLeft = "400px"
-    document.querySelector("#map").style.marginLeft = "400px"
+    if (document.body.clientWidth > 768) {
+      document.querySelector('#mySidenav').style.width = "400px"
+      document.querySelector("#top-bar").style.marginLeft = "400px"
+      document.querySelector("#map").style.marginLeft = "400px"
 
-    this.timeout = TimerMixin.setTimeout(() => {
-      document.querySelector("#map").style.width = "calc(100% - 400px)"
+      this.timeout = TimerMixin.setTimeout(() => {
+        document.querySelector("#map").style.width = "calc(100% - 400px)"
 
-      TimerMixin.clearTimeout(this.timeout)
-    }, 350);
+        TimerMixin.clearTimeout(this.timeout)
+      }, 350);
+    }
+    else {
+      document.querySelector('#mySidenav').style.width = "100%"
+    }
   }
 
   closeSideMenu() {
     document.querySelector('#mySidenav').style.width = "0"
-    document.querySelector("#top-bar").style.marginLeft = "0"
-    document.querySelector("#map").style.marginLeft = "0"
-    document.querySelector("#map").style.width = "100%"
+
+    if (document.body.clientWidth > 768) {
+      document.querySelector("#top-bar").style.marginLeft = "0"
+      document.querySelector("#map").style.marginLeft = "0"
+      document.querySelector("#map").style.width = "100%"
+    }
   }
 
   render() {

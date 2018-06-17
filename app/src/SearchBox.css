@@ -21,3 +21,10 @@
 .venue-search-box {
   margin-left: 300px;
 }
+
+@media only screen and (max-width : 768px) {
+  .venue-search-box {
+    margin-left: 15px;
+    margin-top: 60px;
+  }
+}

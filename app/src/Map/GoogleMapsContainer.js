@@ -133,7 +133,8 @@ class GoogleMapsContainer extends React.Component {
 
     return (
       <div id='map'>
-        <SearchBox onPlacesChanged={this.onPlacesChanged.bind(this)}/>
+        <SearchBox
+          onPlacesChanged={this.onPlacesChanged.bind(this)}/>
         <VenueSearchBox
           ref="venueSearchBox"
           center={center}
@@ -141,45 +142,44 @@ class GoogleMapsContainer extends React.Component {
 
         <Map
           ref="map"
-          google = { this.props.google }
-          onClick = { this.onMapClick }
-          zoom = { zoom }
-          initialCenter = { center }
-          mapTypeControl = { false }
-          styles = { MapStyleOptions }
-        >
-        {
-          venues.map((venue, index) =>
-            <Marker
-              ref = {"marker-" + index}
-              onClick = {(props, marker, e) => {
-                if (venue.photos && venue.photos.groups && venue.photos.groups[0].items) {
-                  venue.thumbnail = venue.photos.groups[0].items[0].prefix + "300x100" + venue.photos.groups[0].items[0].suffix
-                }
-                else {
-                  venue.thumbnail = "https://dummyimage.com/300x100/ffffff/fff&text=no+image"
-                }
+          google={ this.props.google }
+          zoom={ zoom }
+          initialCenter={ center }
+          mapTypeControl={ false }
+          styles={ MapStyleOptions }
+          onClick={ this.onMapClick }>
+          {
+            venues.map((venue, index) =>
+              <Marker
+                ref={"marker-" + index}
+                onClick={(props, marker, e) => {
+                  if (venue.photos && venue.photos.groups && venue.photos.groups[0].items) {
+                    venue.thumbnail = venue.photos.groups[0].items[0].prefix + "300x100" + venue.photos.groups[0].items[0].suffix
+                  }
+                  else {
+                    venue.thumbnail = "https://dummyimage.com/300x100/ffffff/fff&text=no+image"
+                  }
 
-                container.setState({
-                  isMounted: true,
-                  selectedVenue: venue,
-                  activeMarker: marker,
-                  showingInfoWindow: true,
-                  bounceAnimationIndex: -1
-                })
-              }}
+                  container.setState({
+                    isMounted: true,
+                    selectedVenue: venue,
+                    activeMarker: marker,
+                    showingInfoWindow: true,
+                    bounceAnimationIndex: -1
+                  })
+                }}
 
-              key = { venue.id }
-              title = { venue.name }
-              position = { {lat: venue.location.lat, lng: venue.location.lng} }
-              name = { venue.name }
-              animation = { (!isMounted ? google.maps.Animation.DROP : index == bounceAnimationIndex ? google.maps.Animation.BOUNCE : null) }
-            />
-          )
-        }
+                key={ venue.id }
+                title={ venue.name }
+                position={ {lat: venue.location.lat, lng: venue.location.lng} }
+                name={ venue.name }
+                animation={ (!isMounted ? google.maps.Animation.DROP : index == bounceAnimationIndex ? google.maps.Animation.BOUNCE : null) }
+              />
+            )
+          }
           <InfoWindow
-            marker = { container.state.activeMarker }
-            visible = { container.state.bounceAnimationIndex < 0 && container.state.showingInfoWindow }>
+            marker={ container.state.activeMarker }
+            visible={ container.state.bounceAnimationIndex < 0 && container.state.showingInfoWindow }>
             <div className='info-container'>
               <div className='info-head-container'>
                 <img

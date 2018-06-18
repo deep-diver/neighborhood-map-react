@@ -56,7 +56,8 @@ class SideMenu extends Component {
                  className="radius-slider"
                  defaultValue={radius}
                  ref="radius_slider"
-                 onChange={onRadiusChanged}/>
+                 onChange={onRadiusChanged}
+                 role="slider"/>
 
           <p> Query Limits (<span>{limits}</span>) </p>
           <input type="range"
@@ -65,12 +66,14 @@ class SideMenu extends Component {
                  step="5"
                  className="limit-slider"
                  defaultValue={limits}
-                 onChange={onLimitsChanged}/>
+                 onChange={onLimitsChanged}
+                 role="slider"/>
         </div>
         <div className="place-list">
           {
             venues.map((venue,index) =>
               <div
+                tabindex="0"
                 className="venue"
                 key={venue.id}
                 onClick={onVenueSelected.bind(this, index)}>

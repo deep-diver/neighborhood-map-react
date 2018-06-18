@@ -71,7 +71,9 @@ class App extends Component {
 
   render() {
     return (
-      <div className="App">
+      <div
+        role="main"
+        className="App">
         <Top
           openSideMenuHandler={this.openSideMenu.bind(this)}
           closeSideMenuHandler={this.closeSideMenu.bind(this)}/>

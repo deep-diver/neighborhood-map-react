@@ -78,12 +78,12 @@ export default class VenueSearchBox extends Component {
   }
 
   render() {
-    return <input
+    return <label className="venue-search-label"> FIND VENUES <input
               ref="venueInput"
               className="venue-search-box"
               type="text"
               placeholder="Search for Venues"
               onKeyPress={this.keyPressed.bind(this)}
-            />
+            /> </label>
   }
 }

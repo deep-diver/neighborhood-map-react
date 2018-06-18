@@ -20,7 +20,8 @@ class GoogleMapsContainer extends React.Component {
     activeMarker: {},
     selectedPlace: {},
     selectedVenue: {},
-    venueKeyword: ""
+    venueKeyword: "",
+    bounceAnimationIndex: -1
   }
 
   constructor(props) {
@@ -32,7 +33,8 @@ class GoogleMapsContainer extends React.Component {
     if (this.state.showingInfoWindow) {
       this.setState({
         showingInfoWindow: false,
-        activeMarker: null
+        activeMarker: null,
+        bounceAnimationIndex: -1
       })
     }
   }
@@ -57,7 +59,8 @@ class GoogleMapsContainer extends React.Component {
       isMounted: false,
       selectedVenue: {},
       showingInfoWindow: false,
-      activeMarker: null
+      activeMarker: null,
+      bounceAnimationIndex: -1
     })
 
     this.props.onCenterChangeHandler(bounds.getCenter())
@@ -75,16 +78,35 @@ class GoogleMapsContainer extends React.Component {
       venue.thumbnail = "https://dummyimage.com/300x100/ffffff/fff&text=no+image"
     }
 
-    container.refs.map.map.setZoom(16)
-    container.refs.map.setState({
-      currentLocation: selectedMarker.props.position
-    })
+    // container.refs.map.map.setZoom(16)
+    // container.refs.map.setState({
+    //   currentLocation: selectedMarker.props.position
+    // })
 
     container.setState({
       isMounted: true,
       selectedVenue: venue,
       activeMarker: selectedMarker.marker,
-      showingInfoWindow: true
+      showingInfoWindow: true,
+      bounceAnimationIndex: index
+    })
+  }
+
+  onVenueUpdateHandler(venueKeyword, venues) {
+    const bounds = new google.maps.LatLngBounds();
+
+    for (const venue of venues) {
+      const lat = venue.location.lat
+      const lng = venue.location.lng
+
+      bounds.extend(venue.location)
+    }
+
+    this.refs.map.map.fitBounds(bounds)
+    this.props.onVenueUpdateHandler(venues)
+
+    this.setState({
+      venueKeyword: venueKeyword
     })
   }
 
@@ -104,40 +126,19 @@ class GoogleMapsContainer extends React.Component {
     return true
   }
 
-  onVenueUpdateHandler(venueKeyword, venues) {
-    console.log('venueKeyword: ' + venueKeyword)
-    console.log(venues)
-
-    const bounds = new google.maps.LatLngBounds();
-
-    for (const venue of venues) {
-      const lat = venue.location.lat
-      const lng = venue.location.lng
-
-      bounds.extend(venue.location)
-    }
-
-    this.refs.map.map.fitBounds(bounds)
-    this.props.onVenueUpdateHandler(venues)
-
-    this.setState({
-      venueKeyword: venueKeyword
-    })
-  }
-
   render() {
     let container = this
     let {radius, limits, center, venues, onVenueUpdateHandler} = this.props
-    let {zoom, isMounted, venueKeyword} = this.state
+    let {zoom, isMounted, bounceAnimationIndex, venueKeyword} = this.state
 
     return (
       <div id='map'>
         <SearchBox onPlacesChanged={this.onPlacesChanged.bind(this)}/>
-
         <VenueSearchBox
           ref="venueSearchBox"
           center={center}
           onVenueUpdateHandler={this.onVenueUpdateHandler.bind(this)}/>
+
         <Map
           ref="map"
           google = { this.props.google }
@@ -163,20 +164,22 @@ class GoogleMapsContainer extends React.Component {
                   isMounted: true,
                   selectedVenue: venue,
                   activeMarker: marker,
-                  showingInfoWindow: true
+                  showingInfoWindow: true,
+                  bounceAnimationIndex: -1
                 })
               }}
+
               key = { venue.id }
               title = { venue.name }
               position = { {lat: venue.location.lat, lng: venue.location.lng} }
               name = { venue.name }
-              animation = { (!isMounted ? google.maps.Animation.DROP : null) }
+              animation = { (!isMounted ? google.maps.Animation.DROP : index == bounceAnimationIndex ? google.maps.Animation.BOUNCE : null) }
             />
           )
         }
           <InfoWindow
             marker = { container.state.activeMarker }
-            visible = { container.state.showingInfoWindow }>
+            visible = { container.state.bounceAnimationIndex < 0 && container.state.showingInfoWindow }>
             <div className='info-container'>
               <div className='info-head-container'>
                 <img

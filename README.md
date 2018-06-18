@@ -5,6 +5,7 @@ This project demonstrates how to build google map application with third party A
 
 ## Main features
 <img src="./app_overview.png"/>
+
 * Pinning a location of your interest
 * Searching any places of your interest based on the pinned location
 * Setting filtering options (radius, limits)

@@ -72,3 +72,7 @@
 .info-body-address-number {
   font-size: 8pt;
 }
+
+.info-body-thumbnail {
+  width: 200px;
+}

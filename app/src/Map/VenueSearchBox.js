@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import * as FSAPI from './FSAPIs'
+import * as FSAPI from '../API/FSAPIs'
 import './SearchBox.css'
 
 export default class VenueSearchBox extends Component {

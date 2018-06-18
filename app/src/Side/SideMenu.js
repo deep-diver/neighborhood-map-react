@@ -2,9 +2,9 @@ import React, {Component} from 'react'
 import TimerMixin from 'react-timer-mixin'
 import './SideMenu.css'
 
-import like from './like.png'
-import phone from './phone.png'
-import address from './address.png'
+import like from '../images/like.png'
+import phone from '../images/phone.png'
+import address from '../images/address.png'
 
 class SideMenu extends Component {
   timeout = null

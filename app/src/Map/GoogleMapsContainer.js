@@ -6,12 +6,11 @@ import './Map.css'
 import SearchBox from './SearchBox'
 import VenueSearchBox from './VenueSearchBox'
 import MapStyleOptions from './MapStyleOptions.json'
-import * as FSAPI from './FSAPIs'
+import * as FSAPI from '../API/FSAPIs'
 
-import like from './like.png'
-import phone from './phone.png'
-import address from './address.png'
-
+import like from '../images/like.png'
+import phone from '../images/phone.png'
+import address from '../images/address.png'
 
 class GoogleMapsContainer extends React.Component {
   state = {
@@ -196,7 +195,7 @@ class GoogleMapsContainer extends React.Component {
               </div>
               <hr/>
               <div className='info-body-container'>
-                <img src={container.state.selectedVenue.thumbnail}/>
+                <img className='info-body-thumbnail' src={container.state.selectedVenue.thumbnail}/>
                 <hr/>
                 <div className='info-body-like'>
                   <img src={like} />

@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import './App.css';
-import GoogleMapsContainer from './GoogleMapsContainer.js'
-import Top from './Top.js'
-import SideMenu from './SideMenu.js'
+import GoogleMapsContainer from './Map/GoogleMapsContainer.js'
+import Top from './Top/Top.js'
+import SideMenu from './Side/SideMenu.js'
 
 class App extends Component {
   state = {

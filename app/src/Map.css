@@ -72,3 +72,9 @@
 .info-body-address-number {
   font-size: 8pt;
 }
+
+@media only screen and (max-width : 768px) {
+  #map {
+    height: calc(100% - 70px);
+  }
+}

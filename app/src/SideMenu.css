@@ -123,5 +123,6 @@
   .sidenav {
     top: 70px;
     position: absolute;
+    height: auto;
   }
 }

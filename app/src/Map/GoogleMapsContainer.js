@@ -184,6 +184,7 @@ class GoogleMapsContainer extends React.Component {
               <div className='info-head-container'>
                 <img
                   className='info-head-img'
+                  alt='venue category image'
                   src={container.state.selectedVenue.categories &&
                           container.state.selectedVenue.categories[0] &&
                           container.state.selectedVenue.categories[0].icon.prefix + "bg_32" + container.state.selectedVenue.categories[0].icon.suffix}
@@ -198,10 +199,15 @@ class GoogleMapsContainer extends React.Component {
               </div>
               <hr/>
               <div className='info-body-container'>
-                <img className='info-body-thumbnail' src={container.state.selectedVenue.thumbnail}/>
+                <img
+                  className='info-body-thumbnail'
+                  alt='venue image'
+                  src={container.state.selectedVenue.thumbnail}/>
                 <hr/>
                 <div className='info-body-like'>
-                  <img src={like} />
+                  <img
+                    alt='like image'
+                    src={like} />
                   <div className='info-body-like-label'>
                     { container.state.selectedVenue.likes && container.state.selectedVenue.likes.count > 0 ? container.state.selectedVenue.likes.summary : 'Not Yet Registered' }
                   </div>
@@ -228,7 +234,9 @@ class GoogleMapsContainer extends React.Component {
                 }
                 <hr/>
                 <div className='info-body-phone'>
-                  <img src={phone}/>
+                  <img
+                    alt='phone image'
+                    src={phone}/>
                   <div className='info-body-phone-number'>
                     {container.state.selectedVenue.contact ?
                       container.state.selectedVenue.contact.formattedPhone ?
@@ -237,7 +245,9 @@ class GoogleMapsContainer extends React.Component {
                   </div>
                 </div>
                 <div className='info-body-address'>
-                  <img src={address}/>
+                  <img
+                    alt='address image'
+                    src={address}/>
                   <div className='info-body-address-number'>
                     {container.state.selectedVenue.location ?
                       container.state.selectedVenue.location.city ?

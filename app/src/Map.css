@@ -1,6 +1,6 @@
 #map {
   position: absolute;
-  height: 95%;
+  height: calc(100% - 70px);
   width: 100%;
   left: 0%;
 
@@ -71,10 +71,4 @@
 
 .info-body-address-number {
   font-size: 8pt;
-}
-
-@media only screen and (max-width : 768px) {
-  #map {
-    height: calc(100% - 70px);
-  }
 }

@@ -4,6 +4,14 @@ import GoogleMapsContainer from './Map/GoogleMapsContainer.js'
 import Top from './Top/Top.js'
 import SideMenu from './Side/SideMenu.js'
 
+document.addEventListener("DOMContentLoaded", function(e) {
+  let scriptTag = document.getElementsByTagName('SCRIPT').item(1)
+
+  scriptTag.onerror = function(e) {
+    alert('Ops! We cant access Google Maps API for now! Try after checking your internet connection!')
+  }
+})
+
 class App extends Component {
   state = {
     center: {

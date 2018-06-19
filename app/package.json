@@ -8,7 +8,6 @@
     "lodash": "^4.17.10",
     "react": "^16.3.2",
     "react-dom": "^16.3.2",
-    "react-google-maps": "^9.4.5",
     "react-router-dom": "^4.2.2",
     "react-scripts": "1.1.4",
     "react-timer-mixin": "^0.13.3",

@@ -2,6 +2,7 @@
 
 import React from 'react'
 import { GoogleApiWrapper, InfoWindow, Map, Marker } from 'google-maps-react'
+import scriptLoader from 'react-async-script-loader';
 import './Map.css'
 import SearchBox from './SearchBox'
 import VenueSearchBox from './VenueSearchBox'

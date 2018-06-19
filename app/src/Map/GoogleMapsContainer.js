@@ -144,7 +144,7 @@ class GoogleMapsContainer extends React.Component {
               <Marker
                 ref={"marker-" + index}
                 onClick={(props, marker, e) => {
-                  if (venue.photos && venue.photos.groups && venue.photos.groups[0].items) {
+                  if (venue.photos && venue.photos.groups && venue.photos.groups[0] && venue.photos.groups[0].items) {
                     venue.thumbnail = venue.photos.groups[0].items[0].prefix + "300x100" + venue.photos.groups[0].items[0].suffix
                   }
                   else {

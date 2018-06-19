@@ -4,6 +4,7 @@ import GoogleMapsContainer from './Map/GoogleMapsContainer.js'
 import Top from './Top/Top.js'
 import SideMenu from './Side/SideMenu.js'
 
+//  this code snippet lets <script> tag for google maps have onerror (fallback) handler
 document.addEventListener("DOMContentLoaded", function(e) {
   let scriptTag = document.getElementsByTagName('SCRIPT').item(1)
 

@@ -96,7 +96,7 @@ class App extends Component {
           onCenterChangeHandler={this.onCenterChangeHandler.bind(this)}
           onVenueUpdateHandler={this.onVenueUpdateHandler.bind(this)}/>
       </div>
-    );
+    )
   }
 }
 

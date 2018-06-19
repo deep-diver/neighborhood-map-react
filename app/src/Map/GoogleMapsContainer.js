@@ -6,7 +6,6 @@ import './Map.css'
 import SearchBox from './SearchBox'
 import VenueSearchBox from './VenueSearchBox'
 import MapStyleOptions from './MapStyleOptions.json'
-import * as FSAPI from '../API/FSAPIs'
 
 import like from '../images/like.png'
 import phone from '../images/phone.png'
@@ -96,9 +95,6 @@ class GoogleMapsContainer extends React.Component {
     const bounds = new google.maps.LatLngBounds();
 
     for (const venue of venues) {
-      const lat = venue.location.lat
-      const lng = venue.location.lng
-
       bounds.extend(venue.location)
     }
 
@@ -108,6 +104,10 @@ class GoogleMapsContainer extends React.Component {
     this.setState({
       venueKeyword: venueKeyword
     })
+  }
+
+  onMapError() {
+    console.log('a')
   }
 
   componentDidMount() {
@@ -128,8 +128,10 @@ class GoogleMapsContainer extends React.Component {
 
   render() {
     let container = this
-    let {radius, limits, center, venues, onVenueUpdateHandler} = this.props
-    let {zoom, isMounted, bounceAnimationIndex, venueKeyword} = this.state
+    let {google, center, venues} = this.props
+    let {zoom, isMounted, bounceAnimationIndex} = this.state
+
+    google.onError = this.onMapError
 
     return (
       <div id='map'>
@@ -142,7 +144,7 @@ class GoogleMapsContainer extends React.Component {
 
         <Map
           ref="map"
-          google={ this.props.google }
+          google={ google }
           zoom={ zoom }
           initialCenter={ center }
           mapTypeControl={ false }
@@ -173,7 +175,7 @@ class GoogleMapsContainer extends React.Component {
                 title={ venue.name }
                 position={ {lat: venue.location.lat, lng: venue.location.lng} }
                 name={ venue.name }
-                animation={ (!isMounted ? google.maps.Animation.DROP : index == bounceAnimationIndex ? google.maps.Animation.BOUNCE : null) }
+                animation={ (!isMounted ? google.maps.Animation.DROP : index === bounceAnimationIndex ? google.maps.Animation.BOUNCE : null) }
               />
             )
           }
@@ -184,7 +186,7 @@ class GoogleMapsContainer extends React.Component {
               <div className='info-head-container'>
                 <img
                   className='info-head-img'
-                  alt='venue category image'
+                  alt={'venue category image of ' + container.state.selectedVenue.name}
                   src={container.state.selectedVenue.categories &&
                           container.state.selectedVenue.categories[0] &&
                           container.state.selectedVenue.categories[0].icon.prefix + "bg_32" + container.state.selectedVenue.categories[0].icon.suffix}
@@ -201,12 +203,12 @@ class GoogleMapsContainer extends React.Component {
               <div className='info-body-container'>
                 <img
                   className='info-body-thumbnail'
-                  alt='venue image'
+                  alt={'venue image of ' + container.state.selectedVenue.name}
                   src={container.state.selectedVenue.thumbnail}/>
                 <hr/>
                 <div className='info-body-like'>
                   <img
-                    alt='like image'
+                    alt={'like image of ' + container.state.selectedVenue.name}
                     src={like} />
                   <div className='info-body-like-label'>
                     { container.state.selectedVenue.likes && container.state.selectedVenue.likes.count > 0 ? container.state.selectedVenue.likes.summary : 'Not Yet Registered' }
@@ -235,7 +237,7 @@ class GoogleMapsContainer extends React.Component {
                 <hr/>
                 <div className='info-body-phone'>
                   <img
-                    alt='phone image'
+                    alt={'phone image of ' + container.state.selectedVenue.name}
                     src={phone}/>
                   <div className='info-body-phone-number'>
                     {container.state.selectedVenue.contact ?
@@ -246,7 +248,7 @@ class GoogleMapsContainer extends React.Component {
                 </div>
                 <div className='info-body-address'>
                   <img
-                    alt='address image'
+                    alt={'address image of ' + container.state.selectedVenue.name}
                     src={address}/>
                   <div className='info-body-address-number'>
                     {container.state.selectedVenue.location ?

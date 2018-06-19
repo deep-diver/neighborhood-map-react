@@ -42,7 +42,7 @@ class SideMenu extends Component {
   }
 
   render() {
-    let {radius, limits, center, venues, onVenueUpdated, onVenueSelected, onRadiusChanged, onLimitsChanged} = this.props
+    let {radius, limits, venues, onVenueSelected, onRadiusChanged, onLimitsChanged} = this.props
 
     return (
       <div id="mySidenav" className="sidenav">
@@ -57,7 +57,9 @@ class SideMenu extends Component {
                  defaultValue={radius}
                  ref="radius_slider"
                  onChange={onRadiusChanged}
-                 role="slider"/>
+                 aria-valuemax="10000"
+                 aria-valuemin="1000"
+                 aria-valuenow="1000"/>
 
           <p> Query Limits (<span>{limits}</span>) </p>
           <input type="range"
@@ -67,13 +69,15 @@ class SideMenu extends Component {
                  className="limit-slider"
                  defaultValue={limits}
                  onChange={onLimitsChanged}
-                 role="slider"/>
+                 aria-valuemax="50"
+                 aria-valuemin="10"
+                 aria-valuenow="5"/>
         </div>
         <div className="place-list">
           {
             venues.map((venue,index) =>
               <div
-                tabindex="0"
+                tabIndex="0"
                 className="venue"
                 key={venue.id}
                 onClick={onVenueSelected.bind(this, index)}>
@@ -84,10 +88,12 @@ class SideMenu extends Component {
                       venue.photos.groups[0].items[0].prefix + "100x100" + venue.photos.groups[0].items[0].suffix :
                       "https://dummyimage.com/100x100/ffffff/fff&text=no+image" : "https://dummyimage.com/100x100/ffffff/fff&text=no+image" : "https://dummyimage.com/100x100/ffffff/fff&text=no+image" : "https://dummyimage.com/100x100/ffffff/fff&text=no+image" )
                   }
-                  alt="venue image" />
+                  alt={"image of " + venue.name} />
                 <div className="venue-info">
                   <div>
-                    <img src={like}/>
+                    <img
+                      src={like}
+                      alt={"like image of " + venue.name}/>
                     <span className="venue-info-value">
                     { venue.likes ? venue.likes.count > 0 ?
                       venue.likes.summary :
@@ -95,7 +101,9 @@ class SideMenu extends Component {
                     </span>
                   </div>
                   <div>
-                    <img src={phone}/>
+                    <img
+                      src={phone}
+                      alt={"phone image of " + venue.name}/>
                     <span className="venue-info-value">
                     {venue.contact ? venue.contact.formattedPhone ?
                       venue.contact.formattedPhone :
@@ -103,7 +111,9 @@ class SideMenu extends Component {
                     </span>
                   </div>
                   <div>
-                    <img src={address}/>
+                    <img
+                      src={address}
+                      alt={"address image of " + venue.name}/>
                     <span className="venue-info-value">
                       {venue.location ? venue.location.city ?
                         venue.location.city + ", " + venue.location.address :

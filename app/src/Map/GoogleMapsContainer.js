@@ -77,11 +77,6 @@ class GoogleMapsContainer extends React.Component {
       venue.thumbnail = "https://dummyimage.com/300x100/ffffff/fff&text=no+image"
     }
 
-    // container.refs.map.map.setZoom(16)
-    // container.refs.map.setState({
-    //   currentLocation: selectedMarker.props.position
-    // })
-
     container.setState({
       isMounted: true,
       selectedVenue: venue,
@@ -106,10 +101,6 @@ class GoogleMapsContainer extends React.Component {
     })
   }
 
-  onMapError() {
-    console.log('a')
-  }
-
   componentDidMount() {
     this.props.setOnVenueSelected(this)
   }
@@ -130,8 +121,6 @@ class GoogleMapsContainer extends React.Component {
     let container = this
     let {google, center, venues} = this.props
     let {zoom, isMounted, bounceAnimationIndex} = this.state
-
-    google.onError = this.onMapError
 
     return (
       <div id='map'>

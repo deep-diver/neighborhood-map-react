@@ -44,6 +44,8 @@ class SideMenu extends Component {
   render() {
     let {radius, limits, venues, onVenueSelected, onRadiusChanged, onLimitsChanged} = this.props
 
+    let noImage = "https://dummyimage.com/100x100/ffffff/fff&text=no+image"
+
     return (
       <div id="mySidenav" className="sidenav">
         <div className="filter">
@@ -86,7 +88,7 @@ class SideMenu extends Component {
                   src={
                     (venue.photos ? venue.photos.groups ? venue.photos.groups[0] ? venue.photos.groups[0].items ?
                       venue.photos.groups[0].items[0].prefix + "100x100" + venue.photos.groups[0].items[0].suffix :
-                      "https://dummyimage.com/100x100/ffffff/fff&text=no+image" : "https://dummyimage.com/100x100/ffffff/fff&text=no+image" : "https://dummyimage.com/100x100/ffffff/fff&text=no+image" : "https://dummyimage.com/100x100/ffffff/fff&text=no+image" )
+                      noImage : noImage : noImage : noImage )
                   }
                   alt={"image of " + venue.name} />
                 <div className="venue-info">
